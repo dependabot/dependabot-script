@@ -1,12 +1,11 @@
 # Dependabot Update Script
 
-This repo contains a [simple script][script] that demonstrates using
-[Dependabot Core][dependabot-core] to create a pull request. It is intended to
-give you a feel for how to use Dependabot Core, so that you can use it in your
-own project.
+This repo contains a [simple script][script] that demonstrates
+[Dependabot Core][dependabot-core]. It is intended to give you a feel for how
+Dependabot Core works so that you can use it in your own project.
 
-If you're looking for a hosted application to updates your dependencies, look no
-further than [Dependabot][dependabot]!
+If you're looking for a hosted, feature-rich version then you probably want
+[Dependabot][dependabot] itself.
 
 # Usage
 
