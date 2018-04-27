@@ -7,6 +7,9 @@ request.
 It's designed to give you a feel for how to use Dependabot Core, so that you
 can use it in your own project.
 
+If you're looking for a hosted application that updates your Dependencies using
+Dependabot Core, look no further than [Dependabot][dependabot]!
+
 # Usage
 
 * `bundle install`
@@ -15,3 +18,4 @@ can use it in your own project.
   works
 
 [dependabot-core]: https://github.com/dependabot/dependabot-core
+[dependabot]: https://dependabot.com
