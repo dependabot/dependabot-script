@@ -1,11 +1,11 @@
 # Dependabot Update Script
 
-This repo contains a [simple script][script] that demonstrates
+This repo contains a [script][script] that demonstrates
 [Dependabot Core][dependabot-core]. It is intended to give you a feel for how
 Dependabot Core works so that you can use it in your own project.
 
-If you're looking for a hosted, feature-rich version then you probably want
-[Dependabot][dependabot] itself.
+If you're looking for a hosted, feature-rich dependency updater then you
+probably want [Dependabot][dependabot] itself.
 
 # Usage
 
