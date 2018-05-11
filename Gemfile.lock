@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: e734226b17ef0544d3b5cc9e0d0f9352e0c5a8b5
-  tag: v0.56.20
+  revision: dadcfe43a71bd21fe2c9b3adacb0c17f24fce000
+  tag: v0.56.27
   specs:
-    dependabot-core (0.56.20)
+    dependabot-core (0.56.27)
       bundler (~> 1.16)
       docker_registry2 (~> 1.3, >= 1.3.3)
       excon (~> 0.55)
@@ -27,7 +27,7 @@ GEM
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
     excon (0.62.0)
-    faraday (0.15.0)
+    faraday (0.15.1)
       multipart-post (>= 1.2, < 3)
     gitlab (4.3.0)
       httparty
