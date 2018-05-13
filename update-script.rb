@@ -15,13 +15,14 @@ require "dependabot/pull_request_creator"
 # If using a private registry it's also possible to add details of that here.
 credentials =
   [{
+    "type" => "git_source",
     "host" => "github.com",
     "username" => "x-access-token",
     "password" => "a-github-access-token"
   }]
 
 # Full name of the GitHub repo you want to create pull requests for.
-repo = "github-account/github-repo"
+repo_name = "github-account/github-repo"
 
 # Directory where the base dependency files are.
 directory = "/"
@@ -43,13 +44,18 @@ dependency_name = "rails"
 # - docker
 package_manager = "maven"
 
+source = Dependabot::Source.new(
+  provider: "github",
+  repo: repo_name,
+  directory: directory
+)
+
 ##############################
 # Fetch the dependency files #
 ##############################
 fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
-  source: { host: "github", repo: repo },
+  source: source,
   credentials: credentials,
-  directory: directory,
   target_branch: nil,
 )
 
@@ -61,7 +67,7 @@ commit = fetcher.commit
 ##############################
 parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   dependency_files: files,
-  repo: repo,
+  source: source,
   credentials: credentials,
 )
 
@@ -96,7 +102,7 @@ updated_files = updater.updated_dependency_files
 # Create a pull request for the update #
 ########################################
 pr_creator = Dependabot::PullRequestCreator.new(
-  repo: repo,
+  source: source,
   base_commit: commit,
   dependencies: updated_deps,
   files: updated_files,
