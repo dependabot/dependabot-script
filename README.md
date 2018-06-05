@@ -13,7 +13,7 @@ probably want [Dependabot][dependabot] itself.
 * Optional step for some langauges:
   * JS (Yarn): `cd "$(bundle show dependabot-core)/helpers/yarn" && yarn install && cd -`
   * JS (npm): `cd "$(bundle show dependabot-core)/helpers/npm" && yarn install && cd -`
-  * Python: `cd "$(bundle show dependabot-core)/helpers/python" && pyenv exec pip install -r requirements.txt && cd -`
+  * Python: `cd "$(bundle show dependabot-core)/helpers/python" && pyenv exec pip install -r requirements.txt && pyenv local 2.7.14 && pyenv exec pip install -r requirements.txt && pyenv local --unset && cd -`
   * PHP: `cd "$(bundle show dependabot-core)/helpers/php" && composer install && cd -`
   * Elixir: `cd "$(bundle show dependabot-core)/helpers/elixir" && mix deps.get && cd -`
 * `bundle exec irb`
