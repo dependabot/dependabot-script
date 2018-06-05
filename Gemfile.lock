@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: bcd157b1c440146db1c0ae6685e73ea6c2634efd
-  tag: v0.59.39
+  revision: d5bf856bbe3bd9d7c8a6138d3b24dbc401dbb81d
+  tag: v0.59.46
   specs:
-    dependabot-core (0.59.39)
+    dependabot-core (0.59.46)
       bundler (~> 1.16)
       docker_registry2 (~> 1.3, >= 1.3.3)
       excon (~> 0.55)
@@ -67,7 +67,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.5)
-    unicode-display_width (1.3.3)
+    unicode-display_width (1.4.0)
 
 PLATFORMS
   ruby
