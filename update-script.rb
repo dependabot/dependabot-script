@@ -1,5 +1,5 @@
 # This script is designed to be copied into an interactive Ruby session, to
-# give you an idea of hoe the different classes in Dependabot Core fit together.
+# give you an idea of how the different classes in Dependabot Core fit together.
 #
 # It's used regularly by the Dependabot team to manually debug issues, so should
 # always be up-to-date.
