@@ -1,5 +1,7 @@
 # Dependabot Update Script
 
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&identifier=131328855)](https://app.dependabot.com/accounts/dependabot/repos#dependabot-script)
+
 This repo contains two scripts that demonstrates
 [Dependabot Core][dependabot-core]. It is intended to give you a feel for how
 Dependabot Core works so that you can use it in your own project.
