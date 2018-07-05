@@ -16,6 +16,7 @@ probably want [Dependabot][dependabot] itself.
   * Python: `cd "$(bundle show dependabot-core)/helpers/python" && pyenv exec pip install -r requirements.txt && pyenv local 2.7.15 && pyenv exec pip install -r requirements.txt && pyenv local --unset && cd -`
   * PHP: `cd "$(bundle show dependabot-core)/helpers/php" && composer install && cd -`
   * Elixir: `cd "$(bundle show dependabot-core)/helpers/elixir" && mix deps.get && cd -`
+  * Java(Gradle): `cd "$(bundle show dependabot-core)/helpers/gradle/buildfile_parser" && gradle jar && mv build/libs/buildfile_parser.jar ../ && cd - && cd "$(bundle show dependabot-core)/helpers/gradle/settings_file_parser" && gradle jar && mv build/libs/settings_file_parser.jar ../ && cd -`
 * `bundle exec irb`
 * Edit the variables at the top of the script you're using
 * Copy and paste the script into the Ruby session to see how Dependabot works
