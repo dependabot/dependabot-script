@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: 10632f7680627319037e565e716b15f5943bace3
-  tag: v0.61.58
+  revision: 3897e60eb3ff8f44262e0a11ea198ca350e111ac
+  tag: v0.61.60
   specs:
-    dependabot-core (0.61.58)
+    dependabot-core (0.61.60)
       bundler (~> 1.16)
       docker_registry2 (~> 1.3, >= 1.3.3)
       excon (~> 0.55)
@@ -50,7 +50,7 @@ GEM
     octokit (4.9.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     parseconfig (1.0.8)
-    parser (2.5.1.0)
+    parser (2.5.1.1)
       ast (~> 2.4.0)
     public_suffix (3.0.2)
     rest-client (2.0.2)
