@@ -37,9 +37,11 @@ dependency_name = "rails"
 # - pip (includes pipenv)
 # - npm_and_yarn
 # - maven
+# - gradle
 # - cargo
 # - hex
 # - composer
+# - nuget
 # - submodules
 # - docker
 package_manager = "maven"
