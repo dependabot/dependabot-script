@@ -42,6 +42,7 @@ dependency_name = "rails"
 # - hex
 # - composer
 # - nuget
+# - dep
 # - submodules
 # - docker
 package_manager = "maven"
