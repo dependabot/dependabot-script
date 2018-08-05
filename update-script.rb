@@ -43,6 +43,7 @@ dependency_name = "rails"
 # - composer
 # - nuget
 # - dep
+# - elm-package
 # - submodules
 # - docker
 package_manager = "maven"
