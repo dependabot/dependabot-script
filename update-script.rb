@@ -51,17 +51,15 @@ package_manager = "maven"
 source = Dependabot::Source.new(
   provider: "github",
   repo: repo_name,
-  directory: directory
+  directory: directory,
+  branch: nil
 )
 
 ##############################
 # Fetch the dependency files #
 ##############################
-fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
-  source: source,
-  credentials: credentials,
-  target_branch: nil,
-)
+fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).
+          new(source: source, credentials: credentials)
 
 files = fetcher.files
 commit = fetcher.commit
