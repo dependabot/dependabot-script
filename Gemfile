@@ -5,4 +5,4 @@ source "https://rubygems.org"
 
 gem "dependabot-core",
     git: "https://github.com/dependabot/dependabot-core",
-    tag: "v0.66.19"
+    tag: "v0.66.26"
