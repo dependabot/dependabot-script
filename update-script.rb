@@ -46,7 +46,8 @@ dependency_name = "rails"
 # - elm-package
 # - submodules
 # - docker
-package_manager = "maven"
+# - terraform
+package_manager = "npm_and_yarn"
 
 source = Dependabot::Source.new(
   provider: "github",
