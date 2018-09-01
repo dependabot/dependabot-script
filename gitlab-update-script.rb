@@ -36,11 +36,16 @@ directory = "/"
 # - pip (includes pipenv)
 # - npm_and_yarn
 # - maven
+# - gradle
 # - cargo
 # - hex
 # - composer
+# - nuget
+# - dep
+# - elm-package
 # - submodules
 # - docker
+# - terraform
 package_manager = "bundler"
 
 source = Dependabot::Source.new(
