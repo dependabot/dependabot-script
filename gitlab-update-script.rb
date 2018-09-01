@@ -88,8 +88,22 @@ dependencies.each do |dep|
   )
 
   next if checker.up_to_date?
-  next unless checker.can_update?(requirements_to_unlock: :own)
-  updated_deps = checker.updated_dependencies(requirements_to_unlock: :own)
+
+  requirements_to_unlock =
+    if !checker.requirements_unlocked_or_can_be?
+      if checker.can_update?(requirements_to_unlock: :none) then :none
+      else :update_not_possible
+      end
+    elsif checker.can_update?(requirements_to_unlock: :own) then :own
+    elsif checker.can_update?(requirements_to_unlock: :all) then :all
+    else :update_not_possible
+    end
+
+  next if requirements_to_unlock == :update_not_possible
+
+  updated_deps = checker.updated_dependencies(
+    requirements_to_unlock: requirements_to_unlock
+  )
 
   #####################################
   # Generate updated dependency files #
