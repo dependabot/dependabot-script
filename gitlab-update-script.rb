@@ -46,7 +46,8 @@ package_manager = "bundler"
 source = Dependabot::Source.new(
   provider: "gitlab",
   repo: repo_name,
-  directory: directory
+  directory: directory,
+  branch: nil
 )
 
 ##############################
@@ -55,7 +56,6 @@ source = Dependabot::Source.new(
 fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
   source: source,
   credentials: credentials,
-  target_branch: nil,
 )
 
 files = fetcher.files
