@@ -15,18 +15,18 @@ credentials =
     {
       "type" => "git_source",
       "host" => "gitlab.com",
-      "password" => "a-gitlab-access-token-with-api-permission"
+      "password" => ENV["GITLAB_ACCESS_TOKEN"] # A Gitlab access token with API permission
     },
     {
       "type" => "git_source",
       "host" => "github.com",
       "username" => "x-access-token",
-      "password" => "a-github-access-token-with-read-access-to-public-repos"
+      "password" => ENV["GITHUB_ACCESS_TOKEN"] # A Github access token with read access to public repos
     }
 ]
 
 # Full name of the GitLab repo you want to create pull requests for.
-repo_name = "gitlab-account/project"
+repo_name = "#{ENV["GITLAB_USERNAME"]}/#{ENV["PROJECT_NAME"]}"
 
 # Directory where the base dependency files are.
 directory = "/"
