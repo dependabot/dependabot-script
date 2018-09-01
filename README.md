@@ -18,7 +18,7 @@ probably want [Dependabot][dependabot] itself.
   * Elixir: `cd "$(bundle show dependabot-core)/helpers/elixir" && mix deps.get && cd -`
   * Java (Gradle): `cd "$(bundle show dependabot-core)/helpers/gradle/buildfile_parser" && gradle jar && mv build/libs/buildfile_parser.jar ../ && cd - && cd "$(bundle show dependabot-core)/helpers/gradle/settings_file_parser" && gradle jar && mv build/libs/settings_file_parser.jar ../ && cd -`
 * `bundle exec irb`
-* Edit the variables at the top of the script you're using
+* Edit the variables at the top of the script you're using, or set the corresponding environment variables.
 * Copy and paste the script into the Ruby session to see how Dependabot works
 
 If you run into any trouble with the above please create an issue!
