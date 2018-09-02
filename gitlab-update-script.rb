@@ -47,7 +47,7 @@ directory = "/"
 # - submodules
 # - docker
 # - terraform
-package_manager = "bundler"
+package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
 
 source = Dependabot::Source.new(
   provider: "gitlab",
