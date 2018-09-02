@@ -15,6 +15,7 @@ credentials =
     {
       "type" => "git_source",
       "host" => "gitlab.com",
+      "username" => ENV["GITLAB_USERNAME"],
       "password" => ENV["GITLAB_ACCESS_TOKEN"] # A Gitlab access token with API permission
     },
     {
