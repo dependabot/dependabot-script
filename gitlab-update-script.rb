@@ -27,7 +27,7 @@ credentials =
 ]
 
 # Full name of the GitLab repo you want to create pull requests for.
-repo_name = "#{ENV["GITLAB_USERNAME"]}/#{ENV["PROJECT_NAME"]}"
+repo_name = ENV["PROJECT_PATH"] # gitlab-namespace/project
 
 # Directory where the base dependency files are.
 directory = "/"
