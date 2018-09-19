@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: 245a6407e92c34229c6bcd9a2618df2ff15ccf36
-  tag: v0.72.15
+  revision: 6679a066f37cedc7bbe91359cd1150db61b075f1
+  tag: v0.72.17
   specs:
-    dependabot-core (0.72.15)
+    dependabot-core (0.72.17)
       bundler (~> 1.16)
       docker_registry2 (~> 1.4)
       excon (~> 0.55)
@@ -79,4 +79,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.4
+   1.16.5
