@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: 371525784e12d45926ed22b5fa5a4bd1a237d1d3
-  tag: v0.72.9
+  revision: 245a6407e92c34229c6bcd9a2618df2ff15ccf36
+  tag: v0.72.15
   specs:
-    dependabot-core (0.72.9)
+    dependabot-core (0.72.15)
       bundler (~> 1.16)
       docker_registry2 (~> 1.4)
       excon (~> 0.55)
