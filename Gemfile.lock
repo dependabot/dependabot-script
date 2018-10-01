@@ -1,12 +1,12 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: 903dc5c8186ec1042ff28133dcf9e6adf890dbba
-  tag: v0.73.30
+  revision: 2fcb7921d626d3c36eb0a957fa0fa12508961177
+  tag: v0.73.31
   specs:
-    dependabot-core (0.73.30)
+    dependabot-core (0.73.31)
       aws-sdk-ecr (~> 1.5)
       bundler (~> 1.16)
-      docker_registry2 (~> 1.4)
+      docker_registry2 (~> 1.4.1)
       excon (~> 0.55)
       gitlab (~> 4.1)
       gpgme (~> 2.0)
@@ -34,7 +34,7 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
     citrus (3.0.2)
-    docker_registry2 (1.4.0)
+    docker_registry2 (1.4.1)
       rest-client (>= 1.8.0)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
