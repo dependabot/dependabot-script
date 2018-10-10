@@ -25,9 +25,9 @@ If you run into any trouble with the above please create an issue!
 # The scripts
 
 * [Single dependency update script][github-script]
-* [GitLab update run script][gitlab-script]
+* [GitLab/GHE update script][generic-script]
 
 [github-script]: update-script.rb
-[gitlab-script]: gitlab-update-script.rb
+[generic-script]: generic-update-script.rb
 [dependabot-core]: https://github.com/dependabot/dependabot-core
 [dependabot]: https://dependabot.com
