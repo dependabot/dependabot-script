@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: fecbdbc4c13749bdf8f7f3a23304b73dfddfdd35
-  tag: v0.73.54
+  revision: ccc0507ef263546e465a0d7445f19a48b9a074d0
+  tag: v0.73.57
   specs:
-    dependabot-core (0.73.54)
+    dependabot-core (0.73.57)
       aws-sdk-ecr (~> 1.5)
       bundler (~> 1.16)
       docker_registry2 (~> 1.4.1)
@@ -60,7 +60,7 @@ GEM
     netrc (0.11.0)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
-    octokit (4.12.0)
+    octokit (4.13.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     parseconfig (1.0.8)
     parser (2.5.1.2)
