@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: 8c2e6fd7fd28ad784019ee52c99377024bf27f92
-  tag: v0.73.66
+  revision: 22b221b013ae0b662b363302ac87a64491e5f53e
+  tag: v0.73.67
   specs:
-    dependabot-core (0.73.66)
+    dependabot-core (0.73.67)
       aws-sdk-ecr (~> 1.5)
       bundler (~> 1.16)
       docker_registry2 (~> 1.4.1)
@@ -24,7 +24,7 @@ GEM
     ast (2.4.0)
     aws-eventstream (1.0.1)
     aws-partitions (1.105.0)
-    aws-sdk-core (3.30.0)
+    aws-sdk-core (3.31.0)
       aws-eventstream (~> 1.0)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.0)
