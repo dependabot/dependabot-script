@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: d2aab52b3e6df8d85582d423aa51bef6b7a9cc3a
-  tag: v0.75.19
+  revision: e9661153eca13dc987dffef767ef06e52d37b1a9
+  tag: v0.75.21
   specs:
-    dependabot-core (0.75.19)
+    dependabot-core (0.75.21)
       aws-sdk-ecr (~> 1.5)
       bundler (~> 1.16)
       docker_registry2 (~> 1.4.1)
@@ -41,7 +41,7 @@ GEM
     excon (0.62.0)
     faraday (0.15.3)
       multipart-post (>= 1.2, < 3)
-    gitlab (4.6.1)
+    gitlab (4.7.0)
       httparty (>= 0.14.0)
       terminal-table (>= 1.5.1)
     gpgme (2.0.16)
@@ -92,4 +92,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.17.0
+   1.17.1
