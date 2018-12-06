@@ -1,21 +1,3 @@
-GIT
-  remote: https://github.com/dependabot/dependabot-core
-  revision: cc178601768774f2a18eacc9de909a5f15d3ec17
-  tag: v0.75.124
-  specs:
-    dependabot-core (0.75.124)
-      aws-sdk-ecr (~> 1.5)
-      bundler (>= 1.16, < 3.0.0)
-      docker_registry2 (~> 1.4.1)
-      excon (~> 0.55)
-      gitlab (~> 4.1)
-      gpgme (~> 2.0)
-      nokogiri (~> 1.8)
-      octokit (~> 4.6)
-      parseconfig (~> 1.0)
-      parser (~> 2.5)
-      toml-rb (~> 1.1, >= 1.1.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -34,6 +16,23 @@ GEM
       aws-sigv4 (~> 1.0)
     aws-sigv4 (1.0.3)
     citrus (3.0.2)
+    dependabot-core (0.76.7)
+      aws-sdk-ecr (~> 1.5)
+      bundler (>= 1.16, < 3.0.0)
+      docker_registry2 (~> 1.4)
+      excon (~> 0.55)
+      gitlab (~> 4.1)
+      gpgme (~> 2.0)
+      nokogiri (~> 1.8)
+      octokit (~> 4.6)
+      parseconfig (~> 1.0)
+      parser (~> 2.5)
+      toml-rb (~> 1.1, >= 1.1.2)
+    dependabot-omnibus (0.76.7)
+      dependabot-core (= 0.76.7)
+      dependabot-terraform (= 0.76.7)
+    dependabot-terraform (0.76.7)
+      dependabot-core (= 0.76.7)
     docker_registry2 (1.4.1)
       rest-client (>= 1.8.0)
     domain_name (0.5.20180417)
@@ -87,7 +86,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  dependabot-core!
+  dependabot-omnibus (~> 0.76.7)
 
 RUBY VERSION
    ruby 2.5.3p105
