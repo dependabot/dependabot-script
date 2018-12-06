@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/dependabot/dependabot-core
-  revision: cc178601768774f2a18eacc9de909a5f15d3ec17
-  tag: v0.75.124
+  revision: 3c3aca7a81f162d3c95087b067e35f078f6ba15b
+  tag: v0.76.1
   specs:
-    dependabot-core (0.75.124)
+    dependabot-core (0.76.1)
       aws-sdk-ecr (~> 1.5)
       bundler (>= 1.16, < 3.0.0)
       docker_registry2 (~> 1.4.1)
