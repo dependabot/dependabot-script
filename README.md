@@ -10,7 +10,7 @@ probably want [Dependabot][dependabot] itself.
 # Setup and usage
 
 * `bundle install`
-* Optional step for some langauges:
+* Optional step for some langauges (for other languages no setup is needed):
   * JS (Yarn): `cd "$(bundle show dependabot-core)/helpers/yarn" && yarn install && cd -`
   * JS (npm): `cd "$(bundle show dependabot-core)/helpers/npm" && yarn install && cd -`
   * Python: `cd "$(bundle show dependabot-core)/helpers/python" && pyenv exec pip install -r requirements.txt && pyenv local 2.7.15 && pyenv exec pip install -r requirements.txt && pyenv local --unset && cd -`

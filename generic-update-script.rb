@@ -37,7 +37,8 @@ directory = "/"
 # - composer
 # - nuget
 # - dep
-# - elm-package
+# - go_modules
+# - elm
 # - submodules
 # - docker
 # - terraform
