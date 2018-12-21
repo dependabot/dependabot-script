@@ -73,7 +73,7 @@ elsif ENV["GITLAB_ACCESS_TOKEN"]
   source = Dependabot::Source.new(
     provider: "gitlab",
     hostname: gitlab_hostname,
-    api_endpoint: "https://#{gitlab_hostname}/api/v4/",
+    api_endpoint: "https://#{gitlab_hostname}/api/v4",
     repo: repo_name,
     directory: directory,
     branch: nil,
