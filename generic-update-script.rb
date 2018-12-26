@@ -164,6 +164,8 @@ dependencies.select(&:top_level?).each do |dep|
 
   next unless pull_request
 
+  # Enable GitLab "merge when pipeline succeeds" feature.
+  # Merge requests created and successfully tested will be merge automatically.
   if ENV["GITLAB_AUTO_MERGE"]
     g = Gitlab.client(
       endpoint: source.api_endpoint,
