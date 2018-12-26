@@ -10,6 +10,7 @@ require "dependabot/update_checkers"
 require "dependabot/file_updaters"
 require "dependabot/pull_request_creator"
 require "dependabot/omnibus"
+require "gitlab"
 
 credentials = [
   {
@@ -159,5 +160,21 @@ dependencies.select(&:top_level?).each do |dep|
     credentials: credentials,
     label_language: true,
   )
-  pr_creator.create
+  pull_request = pr_creator.create
+
+  next unless pull_request
+
+  # Enable GitLab "merge when pipeline succeeds" feature.
+  # Merge requests created and successfully tested will be merge automatically.
+  if ENV["GITLAB_AUTO_MERGE"]
+    g = Gitlab.client(
+      endpoint: source.api_endpoint,
+      private_token: ENV["GITLAB_ACCESS_TOKEN"]
+    )
+    g.accept_merge_request(
+      source.repo,
+      pull_request.iid,
+      merge_when_pipeline_succeeds: true
+    )
+  end
 end
