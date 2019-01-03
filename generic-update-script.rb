@@ -174,7 +174,8 @@ dependencies.select(&:top_level?).each do |dep|
     g.accept_merge_request(
       source.repo,
       pull_request.iid,
-      merge_when_pipeline_succeeds: true
+      merge_when_pipeline_succeeds: true,
+      should_remove_source_branch: true
     )
   end
 end
