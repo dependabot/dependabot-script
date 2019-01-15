@@ -13,9 +13,9 @@ probably want [Dependabot][dependabot] itself.
 * Optional step for some langauges (for other languages no setup is needed):
   * JS (Yarn): `cd "$(bundle show dependabot-core)/helpers/yarn" && yarn install && cd -`
   * JS (npm): `cd "$(bundle show dependabot-core)/helpers/npm" && yarn install && cd -`
-  * Python: `cd "$(bundle show dependabot-core)/helpers/python" && pyenv exec pip install -r requirements.txt && pyenv local 2.7.15 && pyenv exec pip install -r requirements.txt && pyenv local --unset && cd -`
-  * PHP: `cd "$(bundle show dependabot-core)/helpers/php" && composer install && cd -`
-  * Elixir: `cd "$(bundle show dependabot-core)/helpers/elixir" && mix deps.get && cd -`
+  * Python: `cd "$(bundle show dependabot-python)/helpers" && pyenv exec pip install -r requirements.txt && pyenv local 2.7.15 && pyenv exec pip install -r requirements.txt && pyenv local --unset && cd -`
+  * PHP: `cd "$(bundle show dependabot-composer)/helpers" && composer install && cd -`
+  * Elixir: `cd "$(bundle show dependabot-hex)/helpers" && mix deps.get && cd -`
 * `bundle exec irb`
 * Edit the variables at the top of the script you're using, or set the corresponding environment variables.
 * Copy and paste the script into the Ruby session to see how Dependabot works
