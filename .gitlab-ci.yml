@@ -19,6 +19,7 @@
   image: dependabot/dependabot-core
   variables:
     BUNDLE_SILENCE_ROOT_WARNING: 1
+    PACKAGE_MANAGER: $CI_JOB_NAME
   before_script:
     - bundle install -j $(nproc) --path vendor
     - bundle exec irb
@@ -29,123 +30,94 @@
   only:
     - schedules
 
-Ruby:
+bundler:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: bundler
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bbundler\b/
 
-Python:
+pip:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: pip
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bpip\b/
 
-JavaScript:
+npm_and_yarn:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: npm_and_yarn
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /(\bnpm|yarn\b)/
 
-Java (Maven):
+maven:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: maven
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bmaven\b/
 
-Java (Gradle):
+gradle:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: gradle
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bgradle\b/
 
-Rust:
+cargo:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: cargo
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bcargo\b/
 
-Elixir:
+hex:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: hex
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bhex\b/
 
-PHP:
+composer:
   extends: .dependabot
   variables:
-    PACKAGE_MANAGER: composer
     COMPOSER_ALLOW_SUPERUSER: 1
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bcomposer\b/
 
-dotNet:
+nuget:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: nuget
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bnuget\b/
 
-Go (dep):
+dep:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: dep
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bdep\b/
 
-Go (go modules):
+go_modules:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: go_modules
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bgo_modules\b/
 
-Elm:
+elm:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: elm
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\belm\b/
 
-Submodules:
+submodules:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: submodules
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bsubmodules\b/
 
-Docker:
+docker:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: docker
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bdocker\b/
 
-Terraform:
+terraform:
   extends: .dependabot
-  variables:
-    PACKAGE_MANAGER: terraform
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bterraform\b/
