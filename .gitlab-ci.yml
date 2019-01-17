@@ -51,7 +51,7 @@ JavaScript:
     PACKAGE_MANAGER: npm_and_yarn
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bnpm|yarn\b
+      - $PACKAGE_MANAGER_SET =~ /(\bnpm|yarn\b)/
 
 Java (Maven):
   extends: .dependabot
