@@ -91,6 +91,7 @@ end
 ##############################
 # Fetch the dependency files #
 ##############################
+puts "Fetching #{package_manager} dependency files for #{repo_name}"
 fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
   source: source,
   credentials: credentials,
@@ -102,6 +103,7 @@ commit = fetcher.commit
 ##############################
 # Parse the dependency files #
 ##############################
+puts "Parsing dependencies information"
 parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   dependency_files: files,
   source: source,
@@ -141,6 +143,7 @@ dependencies.select(&:top_level?).each do |dep|
   #####################################
   # Generate updated dependency files #
   #####################################
+  print "  - Updating #{dep.name} (from #{dep.version})…"
   updater = Dependabot::FileUpdaters.for_package_manager(package_manager).new(
     dependencies: updated_deps,
     dependency_files: files,
@@ -161,6 +164,7 @@ dependencies.select(&:top_level?).each do |dep|
     label_language: true,
   )
   pull_request = pr_creator.create
+  puts " submitted"
 
   next unless pull_request
 
@@ -179,3 +183,5 @@ dependencies.select(&:top_level?).each do |dep|
     )
   end
 end
+
+puts "Done"
