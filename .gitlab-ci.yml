@@ -1,7 +1,7 @@
 # GitLab CI configuration for Dependabot
 #
 # Usage:
-# * Set the required global variables used into `./dependabot.rb`
+# * Set the required global variables used into `./generic-update-script.rb`
 #   https://docs.gitlab.com/ee/ci/variables/#variables
 #
 # * Create a pipeline schedule for each managed repository
@@ -23,7 +23,7 @@
   before_script:
     - bundle install -j $(nproc) --path vendor
     - bundle exec irb
-  script: bundle exec ruby ./dependabot.rb
+  script: bundle exec ruby ./generic-update-script.rb
   cache:
     paths:
       - vendor/
