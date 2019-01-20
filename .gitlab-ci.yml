@@ -1,7 +1,7 @@
 # GitLab CI configuration for Dependabot
 #
 # Usage:
-# * Set the required global variables used into `./generic-update-script.rb`
+# * Set the required global variables used in `./generic-update-script.rb`
 #   https://docs.gitlab.com/ee/ci/variables/#variables
 #
 # * Create a pipeline schedule for each managed repository
