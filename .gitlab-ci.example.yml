@@ -18,7 +18,6 @@
 .dependabot:
   image: dependabot/dependabot-core
   variables:
-    BUNDLE_SILENCE_ROOT_WARNING: 1
     PACKAGE_MANAGER: $CI_JOB_NAME
   before_script:
     - bundle install -j $(nproc) --path vendor
@@ -73,8 +72,6 @@ hex:
 
 composer:
   extends: .dependabot
-  variables:
-    COMPOSER_ALLOW_SUPERUSER: 1
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bcomposer\b/
