@@ -1,2 +1,2 @@
-# Ignore bundled gems
 /.bundle
+/native-helpers
