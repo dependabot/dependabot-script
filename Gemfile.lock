@@ -131,7 +131,7 @@ DEPENDENCIES
   dependabot-omnibus (~> 0.95.9)
 
 RUBY VERSION
-   ruby 2.6.1p33
+   ruby 2.5.3p105
 
 BUNDLED WITH
    1.17.3
