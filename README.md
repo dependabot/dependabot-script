@@ -53,7 +53,7 @@ Build the helpers you want to use (you'll also need the corresponding language i
 * PHP: `$DEPENDABOT_NATIVE_HELPERS_PATH/composer/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/composer`
 * JS: `$DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn`
 
-Running `update-script.rb`
+### Running `update-script.rb`
 
 * `bundle exec irb`
 * Edit the variables at the top of the script you're using, or set the corresponding environment variables.
