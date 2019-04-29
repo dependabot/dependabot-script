@@ -9,7 +9,7 @@ probably want [Dependabot][dependabot] itself.
 
 ## Setup and usage
 
-* `rben install` (Install Ruby version from `.ruby-version`)
+* `rbenv install` (Install Ruby version from `.ruby-version`)
 * `bundle install`
 
 ### Native helpers
@@ -18,8 +18,7 @@ Languages that require native helpers to be installed
 
 * Terraform
 * Python
-* Go
-* Go
+* Go (Dep & Modules)
 * Elixir
 * PHP
 * JS
