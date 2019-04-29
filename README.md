@@ -14,14 +14,7 @@ probably want [Dependabot][dependabot] itself.
 
 ### Native helpers
 
-Languages that require native helpers to be installed
-
-* Terraform
-* Python
-* Go (Dep & Modules)
-* Elixir
-* PHP
-* JS
+Languages that require native helpers to be installed: Terraform, Python, Go (Dep & Modules), Elixir, PHP, JS
 
 To install the native helpers, export an environment variable that points to the
 directory into which the helpers should be installed and add the relevant bins
