@@ -12,11 +12,21 @@ probably want [Dependabot][dependabot] itself.
 * `rben install` (Install Ruby version from `.ruby-version`)
 * `bundle install`
 
-### Interactive
+### Native helpers
 
-Many languages require native helpers to be installed. To get started, export an
-environment variable that points to the directory into which the helpers should
-be installed and add the relevant bins to your PATH:
+Languages that require native helpers to be installed
+
+* Terraform
+* Python
+* Go
+* Go
+* Elixir
+* PHP
+* JS
+
+To install the native helpers, export an environment variable that points to the
+directory into which the helpers should be installed and add the relevant bins
+to your PATH:
 
 * `export DEPENDABOT_NATIVE_HELPERS_PATH="$(pwd)/native-helpers"`
 * `mkdir -p $DEPENDABOT_NATIVE_HELPERS_PATH/{terraform,python,dep,go_modules,hex,composer,npm_and_yarn}`
