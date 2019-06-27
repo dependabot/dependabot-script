@@ -1,8 +1,5 @@
-# This script is designed to loop through all dependencies in a GHE or GitLab
-# project, creating PRs where necessary.
-#
-# It is intended to be used as a stop-gap until Dependabot's hosted instance
-# supports GitHub Enterprise and GitLab (coming soon!)
+# This script is designed to loop through all dependencies in a GHE, GitLab or
+# Azure DevOps project, creating PRs where necessary.
 
 require "dependabot/file_fetchers"
 require "dependabot/file_parsers"
@@ -75,6 +72,24 @@ elsif ENV["GITLAB_ACCESS_TOKEN"]
     provider: "gitlab",
     hostname: gitlab_hostname,
     api_endpoint: "https://#{gitlab_hostname}/api/v4",
+    repo: repo_name,
+    directory: directory,
+    branch: nil,
+  )
+elsif ENV["AZURE_ACCESS_TOKEN"]
+  azure_hostname = ENV["AZURE_HOSTNAME"] || "dev.azure.com"
+
+  credentials << {
+    "type" => "git_source",
+    "host" => azure_hostname,
+    "username" => "x-access-token",
+    "password" => ENV["AZURE_ACCESS_TOKEN"]
+  }
+
+  source = Dependabot::Source.new(
+    provider: "azure",
+    hostname: azure_hostname,
+    api_endpoint: "https://#{azure_hostname}/api/v4",
     repo: repo_name,
     directory: directory,
     branch: nil,
