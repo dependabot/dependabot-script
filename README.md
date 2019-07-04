@@ -70,6 +70,8 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 * Set in the schedule the required variables:
   * `PROJECT_PATH`: `group/repository`
   * `PACKAGE_MANAGER_SET`: `bundler,composer,npm_and_yarn`
+* If you'd like to specify an specific directory that contains the package list in the repository, you can set the following environment variable:
+  * `DIRECTORY_PATH`: `/path/to/point`
 
 ## The scripts
 
