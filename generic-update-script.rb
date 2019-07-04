@@ -22,7 +22,7 @@ credentials = [
 repo_name = ENV["PROJECT_PATH"] # namespace/project
 
 # Directory where the base dependency files are.
-directory = "/"
+directory = ENV["DIRECTORY_PATH"] || "/"
 
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
