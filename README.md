@@ -72,6 +72,8 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
   * `PACKAGE_MANAGER_SET`: `bundler,composer,npm_and_yarn`
 * If you'd like to specify the directory that contains the manifest file in the repository, you can set the following environment variable:
   * `DIRECTORY_PATH`: `/path/to/point`
+* If you'd like Merge Requests to be assigned to a user, set the following environment variable:
+  * `GITLAB_ASSIGNEE_ID`: Integer ID of the user to assign. This can be found at `https://gitlab.com/api/v4/users?username=<your username>`
 
 ## The scripts
 
