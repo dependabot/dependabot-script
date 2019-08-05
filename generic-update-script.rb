@@ -176,7 +176,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependencies: updated_deps,
     files: updated_files,
     credentials: credentials,
-    assignees: [ENV['GITLAB_ASSIGNEE_ID']&.to_i],
+    assignees: [(ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i],
     label_language: true,
   )
   pull_request = pr_creator.create
