@@ -42,6 +42,9 @@ directory = ENV["DIRECTORY_PATH"] || "/"
 # - terraform
 package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
 
+# dependencies to ignore, should have format dep1,dep2,dep3
+ignore_dependencies = (ENV["IGNORE_DEPENDENCIES"] || "").split(",")
+
 if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
   credentials << {
     "type" => "git_source",
@@ -131,6 +134,7 @@ dependencies.select(&:top_level?).each do |dep|
   #########################################
   # Get update details for the dependency #
   #########################################
+  next if ignore_dependencies.include? dep.name
   checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
     dependency: dep,
     dependency_files: files,
