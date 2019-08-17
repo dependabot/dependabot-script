@@ -1,0 +1,29 @@
+name: Run
+
+on: [push, pull_request]
+
+jobs:
+  test-run:
+    name: Dependabot ${{ matrix.package_manager }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package_manager: [bundler]
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Install
+        uses: docker://dependabot/dependabot-core:latest
+        with:
+          entrypoint: bundle
+          args: install --jobs 4 --retry 3 --path vendor
+
+      - name: Run Dependabot ${{ matrix.package_manager }}
+        uses: docker://dependabot/dependabot-core:latest
+        with:
+          entrypoint: bundle
+          args: exec ruby ./generic-update-script.rb
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PROJECT_PATH: ${{ github.repository }}
+          PACKAGE_MANAGER: ${{ matrix.package_manager }}
