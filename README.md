@@ -57,6 +57,46 @@ Build the helpers you want to use (you'll also need the corresponding language i
 
 If you run into any trouble with the above please create an issue!
 
+#### Running script with Docker
+
+##### Running script within container to bump dependencies
+
+If you don't want to setup the machine where the script will be executed, you could run the script within
+a `dependabot/dependabot-core` container.
+In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
+You'll also have to set several environment variables to make the script work with your configuration, 
+as specified in the documentation.
+
+Steps:
+```shell
+$ docker pull dependabot/dependabot-core
+$ docker run -ti -w /home/dependabot/dependabot-script --env-file env.list -v "$(pwd):/home/dependabot/dependabot-script" dependabot/dependabot-core
+
+(Now you'd be inside the Docker container)
+/home/dependabot/dependabot-script# bundle install
+/home/dependabot/dependabot-script# ./generic-update-script.rb (Add '#!/usr/bin/env ruby' to execute the script from the shell)
+```
+
+Please notice that you'll have to create an `env.list` file with your environment properties. For example:
+
+```shell
+GITHUB_ENTERPRISE_ACCESS_TOKEN=xxxxxxxxx
+GITHUB_ENTERPRISE_HOSTNAME=mycompany.github.com
+PROJECT_PATH=myorganisation/project
+PACKAGE_MANAGER=gradle
+```
+
+You could also pass environment variables separately on your `docker run` command with `--env`.
+
+If everything goes well you should be able to see something like:
+
+```shell
+/home/dependabot/dependabot-script# ./generic-update-script.rb
+Fetching gradle dependency files for myorganisation/project
+Parsing dependencies information
+...
+```
+
 ### GitLab CI
 
 The easiest configuration is to have a repository dedicated to the script.
