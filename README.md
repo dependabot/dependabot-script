@@ -59,8 +59,6 @@ If you run into any trouble with the above please create an issue!
 
 #### Running script with Docker
 
-##### Running script within container to bump dependencies
-
 If you don't want to setup the machine where the script will be executed, you could run the script within
 a `dependabot/dependabot-core` container.
 In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
