@@ -66,25 +66,42 @@ You'll also have to set several environment variables to make the script work wi
 as specified in the documentation.
 
 Steps:
+
+1. Pull dependabot-core Docker image
+
 ```shell
 $ docker pull dependabot/dependabot-core
-$ docker run -ti -w /home/dependabot/dependabot-script --env-file env.list -v "$(pwd):/home/dependabot/dependabot-script" dependabot/dependabot-core
-
-(Now you'd be inside the Docker container)
-/home/dependabot/dependabot-script# bundle install
-/home/dependabot/dependabot-script# ./generic-update-script.rb (Add '#!/usr/bin/env ruby' to execute the script from the shell)
 ```
 
-Please notice that you'll have to create an `env.list` file with your environment properties. For example:
+2. Install dependencies
 
 ```shell
-GITHUB_ENTERPRISE_ACCESS_TOKEN=xxxxxxxxx
-GITHUB_ENTERPRISE_HOSTNAME=mycompany.github.com
-PROJECT_PATH=myorganisation/project
-PACKAGE_MANAGER=gradle
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
 ```
 
-You could also pass environment variables separately on your `docker run` command with `--env`.
+3. Run dependabot
+
+```shell
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+```
+
+You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
+
+You'll have to set some mandatory variables like `PROJECT_PATH` and `PACKAGE_MANAGER` (see [script](https://github.com/dependabot/dependabot-script/blob/master/generic-update-script.rb) to know more).
+There are other variables that you must pass to your container that will depend on the Git source you use:
+
+* Github
+    * GITHUB_ACCESS_TOKEN
+* Github Enterprise
+    * GITHUB_ENTERPRISE_HOSTNAME
+    * GITHUB_ENTERPRISE_ACCESS_TOKEN
+* Gitlab
+    * GITLAB_HOSTNAME: default value `gitlab.com`
+    * GITLAB_ACCESS_TOKEN
+* Azure DevOps
+    * AZURE_HOSTNAME: default value `dev.azure.com`
+    * AZURE_ACCESS_TOKEN
+
 
 If everything goes well you should be able to see something like:
 
