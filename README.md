@@ -57,6 +57,61 @@ Build the helpers you want to use (you'll also need the corresponding language i
 
 If you run into any trouble with the above please create an issue!
 
+#### Running script with Docker
+
+If you don't want to setup the machine where the script will be executed, you could run the script within
+a `dependabot/dependabot-core` container.
+In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
+You'll also have to set several environment variables to make the script work with your configuration, 
+as specified in the documentation.
+
+Steps:
+
+1. Pull dependabot-core Docker image
+
+```shell
+$ docker pull dependabot/dependabot-core
+```
+
+2. Install dependencies
+
+```shell
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+```
+
+3. Run dependabot
+
+```shell
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+```
+
+You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
+
+You'll have to set some mandatory variables like `PROJECT_PATH` and `PACKAGE_MANAGER` (see [script](https://github.com/dependabot/dependabot-script/blob/master/generic-update-script.rb) to know more).
+There are other variables that you must pass to your container that will depend on the Git source you use:
+
+* Github
+    * GITHUB_ACCESS_TOKEN
+* Github Enterprise
+    * GITHUB_ENTERPRISE_HOSTNAME
+    * GITHUB_ENTERPRISE_ACCESS_TOKEN
+* Gitlab
+    * GITLAB_HOSTNAME: default value `gitlab.com`
+    * GITLAB_ACCESS_TOKEN
+* Azure DevOps
+    * AZURE_HOSTNAME: default value `dev.azure.com`
+    * AZURE_ACCESS_TOKEN
+
+
+If everything goes well you should be able to see something like:
+
+```shell
+/home/dependabot/dependabot-script# ./generic-update-script.rb
+Fetching gradle dependency files for myorganisation/project
+Parsing dependencies information
+...
+```
+
 ### GitLab CI
 
 The easiest configuration is to have a repository dedicated to the script.
