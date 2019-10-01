@@ -89,7 +89,7 @@ elsif ENV["AZURE_ACCESS_TOKEN"]
   source = Dependabot::Source.new(
     provider: "azure",
     hostname: azure_hostname,
-    api_endpoint: "https://#{azure_hostname}/api/v4",
+    api_endpoint: "https://#{azure_hostname}/",
     repo: repo_name,
     directory: directory,
     branch: nil,

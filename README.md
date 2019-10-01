@@ -101,6 +101,7 @@ There are other variables that you must pass to your container that will depend 
 * Azure DevOps
     * AZURE_HOSTNAME: default value `dev.azure.com`
     * AZURE_ACCESS_TOKEN
+    * PROJECT_PATH=organization/project/_git/package-name
 
 
 If everything goes well you should be able to see something like:
