@@ -119,8 +119,21 @@ The easiest configuration is to have a repository dedicated to the script.
 Many pipeline schedules can be added on that single repo to manage multiple projects.  
 Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` dashboard becomes your own dependabot admin interface.
 
-* Clone or mirror this repository.
-* Copy `.gitlab-ci.example.yml` to `.gitlab-ci.yml` or set [a custom CI config path for direct usage](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#custom-ci-config-path).
+* When using less than GitLab 11.4
+  * Clone or mirror this repository.
+  * Copy `.gitlab-ci.example.yml` to `.gitlab-ci.yml` or set [a custom CI config path for direct usage](https://docs.gitlab.com/ee/user/project/pipelines/settings.html#custom-ci-config-path).
+* When using GitLab 11.4+
+  * Put followings to your `.gitlab-ci.yml`
+```yaml
+include:
+  - remote: https://raw.githubusercontent.com/dependabot/dependabot-script/master/.gitlab-ci.example.yml
+
+.dependabot:
+  before_script:
+    - wget https://raw.githubusercontent.com/dependabot/dependabot-script/master/Gemfile
+    - wget https://raw.githubusercontent.com/dependabot/dependabot-script/master/generic-update-script.rb
+    - bundle install -j $(nproc) --path vendor
+```
 * [Set the required global variables](https://docs.gitlab.com/ee/ci/variables/#variables) used in [`./generic-update-script.rb`][generic-script].
 * Create [a pipeline schedule](https://docs.gitlab.com/ee/user/project/pipelines/schedules.html) for each managed repository.
 * Set in the schedule the required variables:
