@@ -9,7 +9,6 @@
 #
 # * Set in the schedule required variables
 #
-#     PROJECT_PATH = group/repository
 #     PACKAGE_MANAGER_SET = bundler,composer,npm_and_yarn
 #
 # https://github.com/dependabot/dependabot-script
@@ -19,6 +18,7 @@
   image: dependabot/dependabot-core
   variables:
     PACKAGE_MANAGER: $CI_JOB_NAME
+    PROJECT_PATH:    $CI_PROJECT_PATH
   before_script:
     - bundle install -j $(nproc) --path vendor
   script: bundle exec ruby ./generic-update-script.rb

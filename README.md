@@ -124,7 +124,6 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 * [Set the required global variables](https://docs.gitlab.com/ee/ci/variables/#variables) used in [`./generic-update-script.rb`][generic-script].
 * Create [a pipeline schedule](https://docs.gitlab.com/ee/user/project/pipelines/schedules.html) for each managed repository.
 * Set in the schedule the required variables:
-  * `PROJECT_PATH`: `group/repository`
   * `PACKAGE_MANAGER_SET`: `bundler,composer,npm_and_yarn`
 * If you'd like to specify the directory that contains the manifest file in the repository, you can set the following environment variable:
   * `DIRECTORY_PATH`: `/path/to/point`
