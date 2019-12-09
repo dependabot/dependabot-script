@@ -99,7 +99,7 @@ GEM
     httparty (0.17.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    irb (1.1.0)
+    irb (1.2.0)
       reline (>= 0.0.1)
     jmespath (1.4.0)
     mime-types (3.3)
