@@ -126,6 +126,7 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 )
 
 dependencies = parser.parse
+ignore = File.readlines('.gemignore')
 
 dependencies.select(&:top_level?).each do |dep|
   #########################################
@@ -138,6 +139,7 @@ dependencies.select(&:top_level?).each do |dep|
   )
 
   next if checker.up_to_date?
+  next if ignore.include? dep.name
 
   requirements_to_unlock =
     if !checker.requirements_unlocked_or_can_be?
