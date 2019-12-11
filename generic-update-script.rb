@@ -126,7 +126,7 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 )
 
 dependencies = parser.parse
-ignore = File.readlines('.gemignore')
+ignore = File.read('.gemignore')
 
 dependencies.select(&:top_level?).each do |dep|
   #########################################
