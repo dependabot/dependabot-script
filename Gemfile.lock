@@ -87,7 +87,7 @@ GEM
       rest-client (>= 1.8.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    excon (0.69.1)
+    excon (0.71.0)
     faraday (0.17.1)
       multipart-post (>= 1.2, < 3)
     gitlab (4.12.0)
