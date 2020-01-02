@@ -1,0 +1,24 @@
+﻿trigger:
+  - master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+  - task: UseRubyVersion@0
+    inputs:
+      versionSpec: '=2.6.3'
+
+  - script: |
+      gem install bundler
+      bundle install --retry=3 --jobs=4
+    displayName: 'bundle install'
+
+  - script: |
+      bundle exec ruby ./generic-update-script.rb
+    env:
+      AZURE_ACCESS_TOKEN: $(System.AccessToken)
+      GITHUB_ACCESS_TOKEN: $(GITHUB_ACCESS_TOKEN)
+      PROJECT_PATH: "{your_organization}/{your_project}/_git/{your_repo}"
+      PACKAGE_MANAGER: "{https://github.com/dependabot/dependabot-core#dependabot-package-manager}"
+    displayName: 'Update dependencies'
