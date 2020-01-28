@@ -127,6 +127,9 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 
 dependencies = parser.parse
 
+max_pull_requests = ENV["MAX_PULL_REQUESTS"].to_i
+pull_requests_count = 0
+
 dependencies.select(&:top_level?).each do |dep|
   #########################################
   # Get update details for the dependency #
@@ -183,6 +186,12 @@ dependencies.select(&:top_level?).each do |dep|
   puts " submitted"
 
   next unless pull_request
+
+  pull_requests_count += 1
+  if max_pull_requests > 0 && pull_requests_count >= max_pull_requests
+    puts " Limit of PullRequests (MAX_PULL_REQUESTS=#{max_pull_requests})"
+    break
+  end
 
   # Enable GitLab "merge when pipeline succeeds" feature.
   # Merge requests created and successfully tested will be merge automatically.

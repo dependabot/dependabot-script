@@ -113,6 +113,10 @@ Parsing dependencies information
 ...
 ```
 
+#### Optional environment variables
+* `MAX_PULL_REQUESTS` : Limit of creating PullRequest (MergeRequest)
+  * default. no limit
+
 ### GitLab CI
 
 The easiest configuration is to have a repository dedicated to the script.
