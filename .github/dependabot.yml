@@ -1,5 +1,6 @@
 version: 2
-update_configs:
-  - package_manager: "ruby:bundler"
+updates:
+  - package-ecosystem: "ruby-bundler"
     directory: "/"
-    update_schedule: "daily"
+    schedule:
+      interval: "daily"
