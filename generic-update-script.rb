@@ -191,14 +191,20 @@ dependencies.select(&:top_level?).each do |dep|
   ########################################
   # Create a pull request for the update #
   ########################################
+  assignee = (ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i
+  assignees = assignee ? [assignee] : assignee
   pr_creator = Dependabot::PullRequestCreator.new(
     source: source,
     base_commit: commit,
     dependencies: updated_deps,
     files: updated_files,
     credentials: credentials,
+<<<<<<< HEAD
     assignees: [(ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i],
     author_details: { name: "Dependabot", email: "no-reply@github.com" },
+=======
+    assignees: assignees
+>>>>>>> 00e7bc0 (fix: prevents an empty assignees list)
     label_language: true,
   )
   pull_request = pr_creator.create
