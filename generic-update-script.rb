@@ -178,7 +178,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependencies: updated_deps,
     files: updated_files,
     credentials: credentials,
-    assignees: assignees
+    assignees: assignees,
     label_language: true,
   )
   pull_request = pr_creator.create
