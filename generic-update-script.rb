@@ -199,12 +199,8 @@ dependencies.select(&:top_level?).each do |dep|
     dependencies: updated_deps,
     files: updated_files,
     credentials: credentials,
-<<<<<<< HEAD
-    assignees: [(ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i],
+    assignees: assignees,
     author_details: { name: "Dependabot", email: "no-reply@github.com" },
-=======
-    assignees: assignees
->>>>>>> 00e7bc0 (fix: prevents an empty assignees list)
     label_language: true,
   )
   pull_request = pr_creator.create
