@@ -131,12 +131,12 @@ dependencies.select(&:top_level?).each do |dep|
   #########################################
   # Get update details for the dependency #
   #########################################
-  checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
+    checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
     dependency: dep,
     dependency_files: files,
     credentials: credentials,
   )
-
+  next unless dep.display_name.match(/^Agoda/) 
   next if checker.up_to_date?
 
   requirements_to_unlock =
@@ -180,9 +180,10 @@ dependencies.select(&:top_level?).each do |dep|
     label_language: true,
   )
   pull_request = pr_creator.create
+  
   puts " submitted"
 
-  next unless pull_request
+  #next unless pull_request
 
   # Enable GitLab "merge when pipeline succeeds" feature.
   # Merge requests created and successfully tested will be merge automatically.
