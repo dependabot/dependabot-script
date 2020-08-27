@@ -8,6 +8,7 @@ require "dependabot/file_updaters"
 require "dependabot/pull_request_creator"
 require "dependabot/omnibus"
 require "gitlab"
+require "./metrics_publisher"
 
 credentials = [
   {
@@ -41,7 +42,8 @@ directory = ENV["DIRECTORY_PATH"] || "/"
 # - docker
 # - terraform
 package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
-
+elastic_endpoint = ENV["ELASTIC_ENDPOINT"]
+raise "ELASTIC_ENDPOINT env variable should be provided" unless elastic_endpoint
 if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
   credentials << {
     "type" => "git_source",
@@ -106,6 +108,12 @@ end
 ##############################
 # Fetch the dependency files #
 ##############################
+
+metrics_publisher = MetricsPublisher.new(
+  endpoint: elastic_endpoint, 
+  repository: repo_name
+)
+
 puts "Fetching #{package_manager} dependency files for #{repo_name}"
 fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
   source: source,
@@ -114,6 +122,25 @@ fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
 
 files = fetcher.files
 commit = fetcher.commit
+#################################################
+# These dependencies are whitelisted for update #
+#################################################
+whitelist_path = ENV["WHITELIST"]
+
+def whitelist_from_file(path)
+  whitelist_file = File.open(path) if File.exist?(path)
+  puts "Whitelist file doesn't exist. Ignoring it." unless whitelist_file
+  return unless whitelist_file
+  whitelist = whitelist_file.readlines.map(&:chomp)
+  whitelist_file.close
+  whitelist || []
+end
+
+puts "Whitelist path provided #{whitelist_path}" unless whitelist_path.nil?
+whitelist = whitelist_from_file(whitelist_path) unless whitelist_path.nil?
+puts "Only dependencies matching regexp gonna be updated #{whitelist}" unless whitelist.nil? || whitelist == []
+
+  
 
 ##############################
 # Parse the dependency files #
@@ -131,13 +158,22 @@ dependencies.select(&:top_level?).each do |dep|
   #########################################
   # Get update details for the dependency #
   #########################################
-    checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
+  checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
     dependency: dep,
     dependency_files: files,
     credentials: credentials,
   )
-  next unless dep.display_name.match(/^Agoda/) 
-  next if checker.up_to_date?
+
+  unless whitelist&.map { |p| !!Regexp.new(p).match(dep.display_name) }.reduce()
+    metrics_publisher.track(dep, Status::FILTERED_OUT)
+    puts "  - Ignoring #{dep.display_name}"
+    next
+  end
+
+  if checker.up_to_date? then
+    metrics_publisher.track(dep, Status::UP_TO_DATE)
+    next
+  end
 
   requirements_to_unlock =
     if !checker.requirements_unlocked_or_can_be?
@@ -149,7 +185,10 @@ dependencies.select(&:top_level?).each do |dep|
     else :update_not_possible
     end
 
-  next if requirements_to_unlock == :update_not_possible
+  if requirements_to_unlock == :update_not_possible then
+    metrics_publisher.track(dep, Status::UPDATE_NOT_POSSIBLE)
+    next
+  end
 
   updated_deps = checker.updated_dependencies(
     requirements_to_unlock: requirements_to_unlock
@@ -164,6 +203,8 @@ dependencies.select(&:top_level?).each do |dep|
     dependency_files: files,
     credentials: credentials,
   )
+
+  metrics_publisher.track(dep, Status::UPDATED, checker)
 
   updated_files = updater.updated_dependency_files
 
@@ -200,5 +241,8 @@ dependencies.select(&:top_level?).each do |dep|
     )
   end
 end
+
+metrics_publisher.flush()
+puts "Analytics flushed"
 
 puts "Done"
