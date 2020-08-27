@@ -163,8 +163,8 @@ dependencies.select(&:top_level?).each do |dep|
     dependency_files: files,
     credentials: credentials,
   )
-
-  unless whitelist&.map { |p| !!Regexp.new(p).match(dep.display_name) }.reduce{ |sum, n| sum }
+  
+  unless whitelist&.map { |p| !!Regexp.new(p).match(dep.display_name) }.reduce{ |result, i| result or i }
     metrics_publisher.track(dep, Status::FILTERED_OUT)
     puts "  - Ignoring #{dep.display_name}"
     next
