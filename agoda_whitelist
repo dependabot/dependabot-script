@@ -2,3 +2,5 @@ Agoda.Adp.Messaging
 Agoda.Config.Consul
 Agoda.Kafka.Queue
 Agoda.ApplicationInsights.AspNetCore
+Agoda.Adp.Messaging.Client.WebExtensions
+Agoda.Adp.Messaging.Client.Extensions
