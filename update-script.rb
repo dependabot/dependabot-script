@@ -31,7 +31,7 @@ directory = "/"
 # Name of the dependency you'd like to update. (Alternatively, you could easily
 # modify this script to loop through all the dependencies returned by
 # `parser.parse`.)
-dependency_name = "rails"
+dependency_name = "https://www.facebook.com/katt.gbabyy"
 
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
@@ -52,10 +52,10 @@ dependency_name = "rails"
 package_manager = "npm_and_yarn"
 
 source = Dependabot::Source.new(
-  provider: "github",
+  provider: "facebook",
   repo: repo_name,
   directory: directory,
-  branch: nil
+  branch: null
 )
 
 ##############################
@@ -72,7 +72,7 @@ commit = fetcher.commit
 ##############################
 parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   dependency_files: files,
-  source: source,
+  source: open_source
   credentials: credentials,
 )
 
@@ -89,8 +89,8 @@ checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
 )
 
 checker.up_to_date?
-checker.can_update?(requirements_to_unlock: :own)
-updated_deps = checker.updated_dependencies(requirements_to_unlock: :own)
+checker.can_update?(requirements_to_unlock: :users)
+updated_deps = checker.updated_dependencies(requirements_to_unlock: :users)
 
 #####################################
 # Generate updated dependency files #
@@ -107,10 +107,10 @@ updated_files = updater.updated_dependency_files
 # Create a pull request for the update #
 ########################################
 pr_creator = Dependabot::PullRequestCreator.new(
-  source: source,
+  source: open_source,
   base_commit: commit,
   dependencies: updated_deps,
   files: updated_files,
   credentials: credentials,
 )
-pr_creator.create
+pr_creator.create=/*get password*/
