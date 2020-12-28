@@ -53,10 +53,56 @@ Build the helpers you want to use (you'll also need the corresponding language i
 | PHP        | `$DEPENDABOT_NATIVE_HELPERS_PATH/composer/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/composer`         |
 | JS         | `$DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn/helpers/build $DEPENDABOT_NATIVE_HELPERS_PATH/npm_and_yarn` |
 
+### Environment Variables
+
+The update scripts are configured using environment variables. The available
+variables are listed in the table below. (See
+[./generic-update-script.rb][generic-script] for more context.)
+
+Variable Name             | Default          | Notes
+:------------             | :--------------- | :----
+`DIRECTORY_PATH `         | `/`              | Directory where the base dependency files are.
+`PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
+`PROJECT_PATH`            | None. Required.  | Path to repository. Usually in the format `<namespace>/<project>`.
+`PULL_REQUEST_ASSIGNEE`   | None. Optional.  | User to assign to the created pull request.
+
+There are other variables that you must pass to your container that will depend on the Git source you use:
+
+**Github**
+
+Variable            | Default
+:-------            | :------
+GITHUB_ACCESS_TOKEN | None. Required.
+
+**Github Enterprise**
+
+Variable                       | Default
+:-------                       | :------
+GITHUB_ENTERPRISE_ACCESS_TOKEN | None. Required.
+GITHUB_ENTERPRISE_HOSTNAME     | None. Required.
+
+**Gitlab**
+
+Variable            | Default
+:-------            | :------
+GITLAB_ACCESS_TOKEN | None. Required.
+GITLAB_AUTO_MERGE   | None. Optional.
+GITLAB_HOSTNAME     | `gitlab.com`
+GITLAB_ASSIGNEE_ID  | None. Deprecated. Use `PULL_REQUEST_ASSIGNEE` instead.
+
+**Azure DevOps**
+
+Variable           | Default
+:-------           | :------
+AZURE_ACCESS_TOKEN | None. Required.
+AZURE_HOSTNAME     | `dev.azure.com`
+
+Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
+
 ### Running `update-script.rb`
 
 * `bundle exec irb`
-* Edit the variables at the top of the script you're using, or set the corresponding environment variables.
+* Edit the variables at the top of the script you're using, or set the corresponding [environment variables](#environment-variables).
 * Copy and paste the script into the Ruby session to see how Dependabot works.
 
 If you run into any trouble with the above please create an issue!
@@ -66,8 +112,10 @@ If you run into any trouble with the above please create an issue!
 If you don't want to setup the machine where the script will be executed, you could run the script within
 a `dependabot/dependabot-core` container.
 In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
-You'll also have to set several environment variables to make the script work with your configuration, 
-as specified in the documentation.
+
+You'll also have to set several [environment variables](#environment-variables) to make the script work with your configuration, as specified above.
+(You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).)
+
 
 Steps:
 
@@ -88,25 +136,6 @@ Steps:
     ```shell
     docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
     ```
-
-You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
-
-You'll have to set some mandatory variables like `PROJECT_PATH` and `PACKAGE_MANAGER` (see [script](https://github.com/dependabot/dependabot-script/blob/master/generic-update-script.rb) to know more).
-There are other variables that you must pass to your container that will depend on the Git source you use:
-
-* Github
-    * GITHUB_ACCESS_TOKEN
-* Github Enterprise
-    * GITHUB_ENTERPRISE_HOSTNAME
-    * GITHUB_ENTERPRISE_ACCESS_TOKEN
-* Gitlab
-    * GITLAB_HOSTNAME: default value `gitlab.com`
-    * GITLAB_ACCESS_TOKEN
-* Azure DevOps
-    * AZURE_HOSTNAME: default value `dev.azure.com`
-    * AZURE_ACCESS_TOKEN
-    * PROJECT_PATH: `organization/project/_git/package-name`
-
 
 If everything goes well you should be able to see something like:
 
