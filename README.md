@@ -99,14 +99,28 @@ AZURE_HOSTNAME     | `dev.azure.com`
 
 Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
 
-### Running `update-script.rb`
+### Running dependabot
 
-* `bundle exec irb`
-* Edit the variables at the top of the script you're using, or set the corresponding [environment variables](#environment-variables).
-* Copy and paste the script into the Ruby session to see how Dependabot works.
+There are a few ways of running the script:
+  * interactively with `./update-script.rb`,
+  * non-interactively with `./generic-update-script.rb`,
+  * and non-interactively using Docker.
+
+#### Running `update-script.rb` (GitHub only)
+
+1. `bundle exec irb`
+2. Edit the variables at the top of the script you're using, or set the corresponding [environment variables](#environment-variables).
+3. Copy and paste the script into the Ruby session to see how Dependabot works.
 
 If you run into any trouble with the above please create an issue!
 
+#### Running `generic-update-script.rb`
+
+1. Configure your shell with the correct [environment variables](#environment-variables).
+2. Execute the script with Bundler:
+    ```shell
+    bundle exec ruby ./generic-update-script.rb
+    ```
 #### Running script with Docker
 
 If you don't want to setup the machine where the script will be executed, you could run the script within
