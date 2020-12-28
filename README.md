@@ -9,8 +9,10 @@ probably want [Dependabot][dependabot] itself.
 
 ## Setup and usage
 
-* `rbenv install` (Install Ruby version from `.ruby-version`)
-* `bundle install`
+```shell
+rbenv install # (Install Ruby version from ./.ruby-version)
+bundle install
+```
 
 ### Native helpers
 
@@ -20,10 +22,12 @@ To install the native helpers, export an environment variable that points to the
 directory into which the helpers should be installed and add the relevant bins
 to your PATH:
 
-* `export DEPENDABOT_NATIVE_HELPERS_PATH="$(pwd)/native-helpers"`
-* `mkdir -p $DEPENDABOT_NATIVE_HELPERS_PATH/{terraform,python,dep,go_modules,hex,composer,npm_and_yarn}`
-* `export PATH="$PATH:$DEPENDABOT_NATIVE_HELPERS_PATH/terraform/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/python/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/go_modules/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/dep/bin"`
-* `export MIX_HOME="$DEPENDABOT_NATIVE_HELPERS_PATH/hex/mix"`
+```shell
+export DEPENDABOT_NATIVE_HELPERS_PATH="$(pwd)/native-helpers"
+mkdir -p $DEPENDABOT_NATIVE_HELPERS_PATH/{terraform,python,dep,go_modules,hex,composer,npm_and_yarn}
+export PATH="$PATH:$DEPENDABOT_NATIVE_HELPERS_PATH/terraform/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/python/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/go_modules/bin:$DEPENDABOT_NATIVE_HELPERS_PATH/dep/bin"
+export MIX_HOME="$DEPENDABOT_NATIVE_HELPERS_PATH/hex/mix"
+```
 
 Copy the relevant helpers from the gem source to the new install location
 
@@ -69,21 +73,21 @@ Steps:
 
 1. Pull dependabot-core Docker image
 
-```shell
-$ docker pull dependabot/dependabot-core
-```
+    ```shell
+    $ docker pull dependabot/dependabot-core
+    ```
 
 2. Install dependencies
 
-```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
-```
+    ```shell
+   docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+   ```
 
 3. Run dependabot
 
-```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
-```
+    ```shell
+    docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+    ```
 
 You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
 
