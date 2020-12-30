@@ -99,6 +99,14 @@ AZURE_HOSTNAME     | `dev.azure.com`
 
 Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
 
+**Bitbucket**
+
+Variable               | Default
+:------                | :------
+BITBUCKET_ACCESS_TOKEN | None. Required.
+BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
+BITBUCKET_HOSTNAME     | `bitbucket.org`
+
 ### Running dependabot
 
 There are a few ways of running the script:
