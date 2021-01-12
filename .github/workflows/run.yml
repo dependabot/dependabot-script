@@ -24,6 +24,6 @@ jobs:
           entrypoint: bundle
           args: exec ruby ./generic-update-script.rb
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROJECT_PATH: ${{ github.repository }}
           PACKAGE_MANAGER: ${{ matrix.package_manager }}
