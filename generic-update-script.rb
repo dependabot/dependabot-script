@@ -191,12 +191,30 @@ dependencies.select(&:top_level?).each do |dep|
       endpoint: source.api_endpoint,
       private_token: ENV["GITLAB_ACCESS_TOKEN"]
     )
-    g.accept_merge_request(
-      source.repo,
-      pull_request.iid,
-      merge_when_pipeline_succeeds: true,
-      should_remove_source_branch: true
-    )
+
+    max_retry_count = ENV["GITLAB_MAX_RETRY_COUNT"].to_i
+    max_retry_count = 3 if max_retry_count < 1
+
+    retry_count = 0
+    begin
+      g.accept_merge_request(
+        source.repo,
+        pull_request.iid,
+        merge_when_pipeline_succeeds: true,
+        should_remove_source_branch: true
+      )
+    rescue Gitlab::Error::MethodNotAllowed, Gitlab::Error::NotAcceptable => e
+      retry_count += 1
+
+      if retry_count > max_retry_count
+        raise e
+      end
+
+      puts "Error is occurred and auto retry (#{retry_count}/#{max_retry_count}): #{e}"
+      sleep 1
+
+      retry
+    end
   end
 end
 

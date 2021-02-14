@@ -130,6 +130,8 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
   * `DIRECTORY_PATH`: `/path/to/point`
 * If you'd like Merge Requests to be assigned to a user, set the following environment variable:
   * `PULL_REQUESTS_ASSIGNEE`: Integer ID of the user to assign. This can be found at `https://gitlab.com/api/v4/users?username=<your username>`
+* `GITLAB_MAX_RETRY_COUNT` : Auto retry when `merge when pipeline succeeds` is failed
+  * default. `3`
 
 ## The scripts
 
