@@ -70,19 +70,25 @@ Steps:
 1. Pull dependabot-core Docker image
 
 ```shell
-$ docker pull dependabot/dependabot-core
+docker pull dependabot/dependabot-core
 ```
 
-2. Install dependencies
-
+2. Clone this project and cd into the directory
 ```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
 ```
 
-3. Run dependabot
+3. Install dependencies
 
 ```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+```
+
+4. Run dependabot
+
+```shell
+docker run --rm -t -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
 
 You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
