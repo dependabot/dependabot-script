@@ -4,3 +4,4 @@ Agoda.Kafka.Queue
 Agoda.ApplicationInsights.AspNetCore
 Agoda.Adp.Messaging.Client.WebExtensions
 Agoda.Adp.Messaging.Client.Extensions
+Agoda.Cronos.Bootstrap
