@@ -125,12 +125,20 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   credentials: credentials,
 )
 
-dependencies = parser.parse
+dependencies = parser.parse.select(&:top_level?)
 
-dependencies.select(&:top_level?).each do |dep|
+pr_count_limit = ENV["PR_COUNT_LIMIT"].to_i || dependencies.length()
+
+print "Amount of libs that will be updated: #{pr_count_limit}\n"
+
+dependencies.each_with_index do |dep, index|
   #########################################
   # Get update details for the dependency #
   #########################################
+  print "Update number: #{index + 1}\n"
+
+  break if index >= pr_count_limit
+
   checker = Dependabot::UpdateCheckers.for_package_manager(package_manager).new(
     dependency: dep,
     dependency_files: files,
