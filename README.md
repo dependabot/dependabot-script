@@ -63,8 +63,9 @@ Variable Name             | Default          | Notes
 :------------             | :--------------- | :----
 `DIRECTORY_PATH `         | `/`              | Directory where the base dependency files are.
 `PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
-`PROJECT_PATH`            | None. Required.  | Path to repository. Usually in the format `<namespace>/<project>`.
-`PULL_REQUEST_ASSIGNEE`   | None. Optional.  | User to assign to the created pull request.
+`PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
+`BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
+`PULL_REQUEST_ASSIGNEE`   | N/A (Optional) | User to assign to the created pull request.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -72,29 +73,29 @@ There are other variables that you must pass to your container that will depend 
 
 Variable            | Default
 :-------            | :------
-GITHUB_ACCESS_TOKEN | None. Required.
+GITHUB_ACCESS_TOKEN | N/A (Required)
 
 **Github Enterprise**
 
 Variable                       | Default
 :-------                       | :------
-GITHUB_ENTERPRISE_ACCESS_TOKEN | None. Required.
-GITHUB_ENTERPRISE_HOSTNAME     | None. Required.
+GITHUB_ENTERPRISE_ACCESS_TOKEN | N/A (Required)
+GITHUB_ENTERPRISE_HOSTNAME     | N/A (Required)
 
 **Gitlab**
 
 Variable            | Default
 :-------            | :------
-GITLAB_ACCESS_TOKEN | None. Required.
-GITLAB_AUTO_MERGE   | None. Optional.
+GITLAB_ACCESS_TOKEN | N/A (Required)
+GITLAB_AUTO_MERGE   | N/A (Optional)
 GITLAB_HOSTNAME     | `gitlab.com`
-GITLAB_ASSIGNEE_ID  | None. Deprecated. Use `PULL_REQUEST_ASSIGNEE` instead.
+GITLAB_ASSIGNEE_ID  | N/A Deprecated. Use `PULL_REQUEST_ASSIGNEE` instead.
 
 **Azure DevOps**
 
 Variable           | Default
 :-------           | :------
-AZURE_ACCESS_TOKEN | None. Required.
+AZURE_ACCESS_TOKEN | N/A (Required)
 AZURE_HOSTNAME     | `dev.azure.com`
 
 Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
@@ -103,7 +104,7 @@ Also note that the `PROJECT_PATH` variable should be in the format: `organizatio
 
 Variable               | Default
 :------                | :------
-BITBUCKET_ACCESS_TOKEN | None. Required.
+BITBUCKET_ACCESS_TOKEN | N/A (Required)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
 
@@ -129,35 +130,38 @@ If you run into any trouble with the above please create an issue!
     ```shell
     bundle exec ruby ./generic-update-script.rb
     ```
-#### Running script with Docker
 
-If you don't want to setup the machine where the script will be executed, you could run the script within
-a `dependabot/dependabot-core` container.
-In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
+#### Running script with dependabot-script Dockerfile
 
-You'll also have to set several [environment variables](#environment-variables) to make the script work with your configuration, as specified above.
-(You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).)
+If you don't want to setup the machine where the script will be executed, you
+could run the script within a `dependabot/dependabot-script` container.
+
+You can build and run the `Dockerfile` in order to do that. You'll also have to
+set several [environment variables](#environment-variables) to make the script
+work with your configuration, as specified above. (You can find how to pass
+environment variables to your container in [Docker run
+reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).)
 
 
 Steps:
 
-1. Pull dependabot-core Docker image
+1. Build the dependabot-script Docker image
 
-    ```shell
-    $ docker pull dependabot/dependabot-core
-    ```
+```shell
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
 
-2. Install dependencies
+docker docker build -t "dependabot/dependabot-script" -f Dockerfile .
+```
 
-    ```shell
-   docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
-   ```
+2. Run dependabot
 
-3. Run dependabot
-
-    ```shell
-    docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
-    ```
+```shell
+docker run --rm \
+  --env "PROJECT_PATH=organization/project" \
+  --env "PACKAGE_MANAGER=bundler" \
+  "dependabot/dependabot-script"
+```
 
 If everything goes well you should be able to see something like:
 
@@ -166,6 +170,42 @@ If everything goes well you should be able to see something like:
 Fetching gradle dependency files for myorganisation/project
 Parsing dependencies information
 ...
+```
+
+#### Running scripts with dependabot-core Dockerfile only
+
+The dependabot-core `Dockerfile` installs dependencies as the `dependabot` user,
+so volume mouning won't work unless you build the image by passing in the
+`USER_UID` and `USER_GID` arguments. This creates the `dependabot` user with the
+same IDs ensuring it owns the mounted files and can write to them from within
+the container.
+
+Steps:
+
+1. Build dependabot-core image
+
+```
+git clone https://github.com/dependabot/dependabot-core.git
+cd dependabot-core
+
+docker build \
+  --build-arg "USER_UID=$(id -u)" \
+   --build-arg "USER_GID=$(id -g)" \
+  -t "dependabot/dependabot-core" .
+cd ..
+```
+
+2. Install dependencies
+```
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
+
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+```
+
+3. Run dependabot
+```
+docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
 
 ### GitLab CI
@@ -194,4 +234,4 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 [github-script]: update-script.rb
 [generic-script]: generic-update-script.rb
 [dependabot-core]: https://github.com/dependabot/dependabot-core
-[dependabot]: https://dependabot.com
+[dependabot]: https://docs.github.com/en/github/administering-a-repository/about-dependabot-version-updates
