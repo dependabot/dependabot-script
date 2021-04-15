@@ -134,6 +134,7 @@ include:
     - wget https://raw.githubusercontent.com/dependabot/dependabot-script/master/generic-update-script.rb
     - bundle install -j $(nproc) --path vendor
 ```
+
 * [Set the required global variables](https://docs.gitlab.com/ee/ci/variables/#variables) used in [`./generic-update-script.rb`][generic-script].
 * Create [a pipeline schedule](https://docs.gitlab.com/ee/user/project/pipelines/schedules.html) for each managed repository.
 * Set in the schedule the required variables:
