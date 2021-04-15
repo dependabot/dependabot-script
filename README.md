@@ -57,37 +57,39 @@ Build the helpers you want to use (you'll also need the corresponding language i
 
 If you run into any trouble with the above please create an issue!
 
-#### Running script with Docker
+#### Running script with dependabot-script Dockerfile
 
-If you don't want to setup the machine where the script will be executed, you could run the script within
-a `dependabot/dependabot-core` container.
-In order to do that, you'll have to pull the image from Docker Hub and mount your working directory into the container.
-You'll also have to set several environment variables to make the script work with your configuration, 
-as specified in the documentation.
+If you don't want to setup the machine where the script will be executed, you
+could run the script within a `dependabot/dependabot-script` container.
+
+You can build and run the `Dockerfile` in order to do that. You'll also have to
+set several environment variables to make the script work with your
+configuration, as specified in the documentation.
 
 Steps:
 
-1. Pull dependabot-core Docker image
+1. Build the dependabot-script Docker image
 
 ```shell
-$ docker pull dependabot/dependabot-core
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
+
+docker docker build -t "dependabot/dependabot-script" -f Dockerfile .
 ```
 
-2. Install dependencies
+2. Run dependabot
 
 ```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
-```
-
-3. Run dependabot
-
-```shell
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+docker run --rm \
+  --env "PROJECT_PATH=organization/project" \
+  --env "PACKAGE_MANAGER=bundler" \
+  "dependabot/dependabot-script"
 ```
 
 You'll have to pass the right environment variables to make the script work with your configuration. You can find how to pass environment variables to your container in [Docker run reference](https://docs.docker.com/engine/reference/run/#env-environment-variables).
 
 You'll have to set some mandatory variables like `PROJECT_PATH` and `PACKAGE_MANAGER` (see [script](https://github.com/dependabot/dependabot-script/blob/master/generic-update-script.rb) to know more).
+
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
 * Github
@@ -103,7 +105,6 @@ There are other variables that you must pass to your container that will depend 
     * AZURE_ACCESS_TOKEN
     * PROJECT_PATH: `organization/project/_git/package-name`
 
-
 If everything goes well you should be able to see something like:
 
 ```shell
@@ -111,6 +112,42 @@ If everything goes well you should be able to see something like:
 Fetching gradle dependency files for myorganisation/project
 Parsing dependencies information
 ...
+```
+
+#### Running scripts with dependabot-core Dockerfile only
+
+The dependabot-core `Dockerfile` installs dependencies as the `dependabot` user,
+so volume mouning won't work unless you build the image by passing in the
+`USER_UID` and `USER_GID` arguments. This creates the `dependabot` user with the
+same IDs ensuring it owns the mounted files and can write to them from within the
+container.
+
+Steps:
+
+1. Build dependabot-core image
+
+```
+git clone https://github.com/dependabot/dependabot-core.git
+cd dependabot-core
+
+docker build \
+  --build-arg "USER_UID=$(id -u)" \
+   --build-arg "USER_GID=$(id -g)" \
+  -t "dependabot/dependabot-core" .
+cd ..
+```
+
+2. Install dependencies
+```
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
+
+docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+```
+
+3. Run dependabot
+```
+docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
 
 ### GitLab CI
@@ -139,4 +176,4 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 [github-script]: update-script.rb
 [generic-script]: generic-update-script.rb
 [dependabot-core]: https://github.com/dependabot/dependabot-core
-[dependabot]: https://dependabot.com
+[dependabot]: https://docs.github.com/en/github/administering-a-repository/about-dependabot-version-updates
