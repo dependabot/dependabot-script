@@ -10,20 +10,15 @@ jobs:
       matrix:
         package_manager: [bundler]
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Install
-        uses: docker://dependabot/dependabot-core:latest
-        with:
-          entrypoint: bundle
-          args: install --jobs 4 --retry 3 --path vendor
-
-      - name: Run Dependabot ${{ matrix.package_manager }}
-        uses: docker://dependabot/dependabot-core:latest
-        with:
-          entrypoint: bundle
-          args: exec ruby ./generic-update-script.rb
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PROJECT_PATH: ${{ github.repository }}
-          PACKAGE_MANAGER: ${{ matrix.package_manager }}
+      - uses: actions/checkout@v2
+      - name: Prepare environment variables
+        run: echo "IMAGE_NAME=dependabot/dependabot-script" >> $GITHUB_ENV
+      - name: Build Dockerfile
+        run: docker build -t "$IMAGE_NAME" -f Dockerfile .
+      - name: Run ${{ matrix.package_manager }} tests
+        run: |
+          docker run --rm \
+            --env "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" \
+            --env "PROJECT_PATH=${{ github.repository }}" \
+            --env "PACKAGE_MANAGER=${{ matrix.package_manager }}" \
+            "$IMAGE_NAME"
