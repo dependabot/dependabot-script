@@ -15,7 +15,6 @@
 # https://github.com/dependabot/dependabot-script
 # https://docs.gitlab.com/ee/ci/yaml/
 
-.dependabot:
 build-image:
   stage: build
   script:
