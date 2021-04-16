@@ -15,16 +15,17 @@
 # https://github.com/dependabot/dependabot-script
 # https://docs.gitlab.com/ee/ci/yaml/
 
+build-image:
+  stage: build
+  script:
+    - docker build -t "dependabot/dependabot-script" -f Dockerfile .
+
 .dependabot:
-  image: dependabot/dependabot-core
+  image: dependabot/dependabot-script
   variables:
     PACKAGE_MANAGER: $CI_JOB_NAME
-  before_script:
-    - bundle install -j $(nproc) --path vendor
-  script: bundle exec ruby ./generic-update-script.rb
-  cache:
-    paths:
-      - vendor/
+  script:
+    - bundle exec ruby ./generic-update-script.rb
   only:
     - schedules
 
@@ -117,3 +118,9 @@ terraform:
   only:
     variables:
       - $PACKAGE_MANAGER_SET =~ /\bterraform\b/
+
+github_actions:
+  extends: .dependabot
+  only:
+    variables:
+      - $PACKAGE_MANAGER_SET =~ /\bgithub_actions\b/
