@@ -122,4 +122,4 @@ github_actions:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\github_actions\b/
+      - $PACKAGE_MANAGER_SET =~ /\bgithub_actions\b/
