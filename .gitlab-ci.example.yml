@@ -16,15 +16,17 @@
 # https://docs.gitlab.com/ee/ci/yaml/
 
 .dependabot:
-  build_image:
-    script:
-      - docker docker build -t "dependabot/dependabot-script" -f Dockerfile .
-      - docker run --rm \
-          --env "PROJECT_PATH=$PROJECT_PATH" \
-          --env "PACKAGE_MANAGER=$PACKAGE_MANAGER" \
-          "dependabot/dependabot-script"
+build-image:
+  stage: build
+  script:
+    - docker build -t "dependabot/dependabot-script" -f Dockerfile .
+
+.dependabot:
+  image: dependabot/dependabot-script
   variables:
     PACKAGE_MANAGER: $CI_JOB_NAME
+  script:
+    - bundle exec ruby ./generic-update-script.rb
   only:
     - schedules
 
