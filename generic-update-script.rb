@@ -24,6 +24,9 @@ repo_name = ENV["PROJECT_PATH"] # namespace/project
 # Directory where the base dependency files are.
 directory = ENV["DIRECTORY_PATH"] || "/"
 
+# Branch to look at. Defaults to repo's default branch
+branch = ENV["BRANCH"]
+
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
 # - pip (includes pipenv)
@@ -56,7 +59,7 @@ if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
     api_endpoint: "https://#{ENV['GITHUB_ENTERPRISE_HOSTNAME']}/api/v3/",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 elsif ENV["GITLAB_ACCESS_TOKEN"]
   gitlab_hostname = ENV["GITLAB_HOSTNAME"] || "gitlab.com"
@@ -74,7 +77,7 @@ elsif ENV["GITLAB_ACCESS_TOKEN"]
     api_endpoint: "https://#{gitlab_hostname}/api/v4",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 elsif ENV["AZURE_ACCESS_TOKEN"]
   azure_hostname = ENV["AZURE_HOSTNAME"] || "dev.azure.com"
@@ -92,6 +95,24 @@ elsif ENV["AZURE_ACCESS_TOKEN"]
     api_endpoint: "https://#{azure_hostname}/",
     repo: repo_name,
     directory: directory,
+    branch: branch,
+  )
+elsif ENV["BITBUCKET_ACCESS_TOKEN"]
+  bitbucket_hostname = ENV["BITBUCKET_HOSTNAME"] || "bitbucket.org"
+
+  credentials << {
+    "type" => "git_source",
+    "host" => bitbucket_hostname,
+    "username" => nil,
+    "token" => ENV["BITBUCKET_ACCESS_TOKEN"]
+  }
+
+  source = Dependabot::Source.new(
+    provider: "bitbucket",
+    hostname: bitbucket_hostname,
+    api_endpoint: ENV["BITBUCKET_API_URL"] || "https://api.bitbucket.org/2.0/",
+    repo: repo_name,
+    directory: directory,
     branch: nil,
   )
 else
@@ -99,7 +120,7 @@ else
     provider: "github",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 end
 
@@ -170,13 +191,16 @@ dependencies.select(&:top_level?).each do |dep|
   ########################################
   # Create a pull request for the update #
   ########################################
+  assignee = (ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i
+  assignees = assignee ? [assignee] : assignee
   pr_creator = Dependabot::PullRequestCreator.new(
     source: source,
     base_commit: commit,
     dependencies: updated_deps,
     files: updated_files,
     credentials: credentials,
-    assignees: [(ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i],
+    assignees: assignees,
+    author_details: { name: "Dependabot", email: "no-reply@github.com" },
     label_language: true,
   )
   pull_request = pr_creator.create
