@@ -221,13 +221,7 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
   * Put followings to your `.gitlab-ci.yml`
 ```yaml
 include:
-  - remote: https://raw.githubusercontent.com/dependabot/dependabot-script/master/.gitlab-ci.example.yml
-
-.dependabot:
-  before_script:
-    - wget https://raw.githubusercontent.com/dependabot/dependabot-script/master/Gemfile
-    - wget https://raw.githubusercontent.com/dependabot/dependabot-script/master/generic-update-script.rb
-    - bundle install -j $(nproc) --path vendor
+  - remote: https://raw.githubusercontent.com/dependabot/dependabot-script/main/.gitlab-ci.example.yml
 ```
 
 * [Set the required global variables](https://docs.gitlab.com/ee/ci/variables/#variables) used in [`./generic-update-script.rb`][generic-script].
