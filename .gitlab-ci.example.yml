@@ -16,7 +16,10 @@
 # https://docs.gitlab.com/ee/ci/yaml/
 
 build-image:
+  image: docker:latest
   stage: build
+  services:
+    - docker:dind
   script:
     - docker build -t "dependabot/dependabot-script" -f Dockerfile .
 
