@@ -100,11 +100,22 @@ AZURE_HOSTNAME     | `dev.azure.com`
 
 Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
 
-**Bitbucket**
+**Bitbucket Server**
 
 Variable               | Default
 :------                | :------
 BITBUCKET_ACCESS_TOKEN | N/A (Required)
+BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
+BITBUCKET_HOSTNAME     | `bitbucket.org`
+
+**Bitbucket Cloud**
+
+BitBucket Cloud requires the creation of an App Password as it does not support Access Tokens.
+
+Variable               | Default
+:------                | :------
+BITBUCKET_APP_USERNAME | N/A (Required)
+BITBUCKET_APP_PASSWORD | N/A (Required)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
 
@@ -211,7 +222,7 @@ docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependab
 ### GitLab CI
 
 The easiest configuration is to have a repository dedicated to the script.
-Many pipeline schedules can be added on that single repo to manage multiple projects.  
+Many pipeline schedules can be added on that single repo to manage multiple projects.
 Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` dashboard becomes your own dependabot admin interface.
 
 * Clone or mirror this repository.
