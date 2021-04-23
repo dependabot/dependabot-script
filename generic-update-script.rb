@@ -131,7 +131,7 @@ elsif ENV["BITBUCKET_APP_USERNAME"] && ENV["BITBUCKET_APP_PASSWORD"]
     api_endpoint: ENV["BITBUCKET_API_URL"] || "https://api.bitbucket.org/2.0/",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 else
   source = Dependabot::Source.new(
