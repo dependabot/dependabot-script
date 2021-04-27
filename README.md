@@ -109,6 +109,7 @@ BITBUCKET_APP_USERNAME | N/A (Required*)
 BITBUCKET_APP_PASSWORD | N/A (Required*)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
+
 \* Either `BITBUCKET_ACCESS_TOKEN` must be passed, or `BITBUCKET_APP_USERNAME` and `BITBUCKET_APP_PASSWORD`.
 
 ### Running dependabot
