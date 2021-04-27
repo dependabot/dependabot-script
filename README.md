@@ -100,24 +100,16 @@ AZURE_HOSTNAME     | `dev.azure.com`
 
 Also note that the `PROJECT_PATH` variable should be in the format: `organization/project/_git/package-name`.
 
-**Bitbucket Server**
+**Bitbucket**
 
 Variable               | Default
 :------                | :------
-BITBUCKET_ACCESS_TOKEN | N/A (Required)
+BITBUCKET_ACCESS_TOKEN | N/A (Required*)
+BITBUCKET_APP_USERNAME | N/A (Required*)
+BITBUCKET_APP_PASSWORD | N/A (Required*)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
-
-**Bitbucket Cloud**
-
-BitBucket Cloud requires the creation of an App Password as it does not support Access Tokens.
-
-Variable               | Default
-:------                | :------
-BITBUCKET_APP_USERNAME | N/A (Required)
-BITBUCKET_APP_PASSWORD | N/A (Required)
-BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
-BITBUCKET_HOSTNAME     | `bitbucket.org`
+\* Either `BITBUCKET_ACCESS_TOKEN` must be passed, or `BITBUCKET_APP_USERNAME` and `BITBUCKET_APP_PASSWORD`.
 
 ### Running dependabot
 
