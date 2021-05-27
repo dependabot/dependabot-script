@@ -1,3 +1,5 @@
+require 'time'
+
 module Status
   FILTERED_OUT = "FILTERED_OUT"
   UP_TO_DATE = "UP_TO_DATE"
@@ -11,6 +13,7 @@ class MetricsPublisher
     @endpoint = endpoint
     @repository = repository
     @date = Date.today.to_s
+    @timestamp = Time.now.getutc.iso8601.to_s
     @attempt_id = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
     @messages = ''
   end
@@ -22,6 +25,7 @@ class MetricsPublisher
     message[:to_version] = version_checker&.latest_version || "" 
     message[:attempt_id] = @attempt_id
     message[:attempt_date] = @date
+    message[:timestamp] = @timestamp
     message[:status] = status
     message[:repository] = @repository
     @messages << construct_bulk_data(message)
