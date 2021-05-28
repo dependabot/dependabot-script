@@ -139,4 +139,4 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 [github-script]: update-script.rb
 [generic-script]: generic-update-script.rb
 [dependabot-core]: https://github.com/dependabot/dependabot-core
-[dependabot]: https://dependabot.com
+[dependabot]: https://docs.github.com/en/github/administering-a-repository/about-dependabot-version-updates
