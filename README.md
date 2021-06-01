@@ -108,6 +108,29 @@ BITBUCKET_ACCESS_TOKEN | N/A (Required)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
 
+**Private repository credentials**
+
+Variable               | Default
+:------                | :------
+PRIVATE_REPOSITORIES   | N/A (Optional)
+
+This variable takes a JSON array with objects having below properties.
+Json Property          | Description
+:------                | :------
+type                   | Repository type. Currently supports `nuget_feed`, `npm_registry`, `rubygems_server`, `python_index`
+url                    | Repository URL. One that is configured in your feed config in your git repository
+token                  | Token with read access to your repository
+
+
+Example:
+```bash
+export PRIVATE_REPOSITORIES="[{\"type\":\"REPO_TYPE_1\",\"url\":\"REPO_URL_1\",\"token\":\"TOKEN_1\"},{\"type\":\"REPO_TYPE_2\",\"url\":\"REPO_URL_2\",\"token\":\"TOKEN_2\"}]"
+```
+
+Limitations:
+- `python_index` works but currently you cannot set `replaces-base`.   
+- `maven_repository`, `docker_registry` uses username/password instead of token. Hence it is not supported. If this feature is of value, this functionality can be extended.
+
 ### Running dependabot
 
 There are a few ways of running the script:
