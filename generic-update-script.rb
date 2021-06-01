@@ -124,6 +124,18 @@ else
   )
 end
 
+# Add additional credentials for repositories that needs authentication
+if ENV["PRIVATE_REPOSITORIES"]
+  feeds = JSON.parse("#{ENV["PRIVATE_REPOSITORIES"]}")
+  feeds.each do |child|
+    credentials << {
+      "type" => "#{child['type']}",
+      "url" => "#{child['url']}",
+      "token" => "#{child['token']}",
+    }
+  end
+end
+
 ##############################
 # Fetch the dependency files #
 ##############################
