@@ -155,7 +155,7 @@ Steps:
 git clone https://github.com/dependabot/dependabot-script.git
 cd dependabot-script
 
-docker docker build -t "dependabot/dependabot-script" -f Dockerfile .
+docker build -t "dependabot/dependabot-script" -f Dockerfile .
 ```
 
 2. Run dependabot
