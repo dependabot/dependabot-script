@@ -65,7 +65,7 @@ Variable Name             | Default          | Notes
 `PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
-`PULL_REQUEST_ASSIGNEE`   | N/A (Optional) | User to assign to the created pull request.
+`PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -89,7 +89,7 @@ Variable            | Default
 GITLAB_ACCESS_TOKEN | N/A (Required)
 GITLAB_AUTO_MERGE   | N/A (Optional)
 GITLAB_HOSTNAME     | `gitlab.com`
-GITLAB_ASSIGNEE_ID  | N/A Deprecated. Use `PULL_REQUEST_ASSIGNEE` instead.
+GITLAB_ASSIGNEE_ID  | N/A Deprecated. Use `PULL_REQUESTS_ASSIGNEE` instead.
 
 **Azure DevOps**
 
