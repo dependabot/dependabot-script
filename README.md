@@ -65,7 +65,7 @@ Variable Name             | Default          | Notes
 `PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
-`PULL_REQUEST_ASSIGNEE`   | N/A (Optional) | User to assign to the created pull request.
+`PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -89,7 +89,7 @@ Variable            | Default
 GITLAB_ACCESS_TOKEN | N/A (Required)
 GITLAB_AUTO_MERGE   | N/A (Optional)
 GITLAB_HOSTNAME     | `gitlab.com`
-GITLAB_ASSIGNEE_ID  | N/A Deprecated. Use `PULL_REQUEST_ASSIGNEE` instead.
+GITLAB_ASSIGNEE_ID  | N/A Deprecated. Use `PULL_REQUESTS_ASSIGNEE` instead.
 
 **Azure DevOps**
 
@@ -104,9 +104,13 @@ Also note that the `PROJECT_PATH` variable should be in the format: `organizatio
 
 Variable               | Default
 :------                | :------
-BITBUCKET_ACCESS_TOKEN | N/A (Required)
+BITBUCKET_ACCESS_TOKEN | N/A (Required*)
+BITBUCKET_APP_USERNAME | N/A (Required*)
+BITBUCKET_APP_PASSWORD | N/A (Required*)
 BITBUCKET_API_URL      | `https://api.bitbucket.org/2.0`
 BITBUCKET_HOSTNAME     | `bitbucket.org`
+
+\* Either `BITBUCKET_ACCESS_TOKEN` must be passed, or `BITBUCKET_APP_USERNAME` and `BITBUCKET_APP_PASSWORD`.
 
 **Private repository credentials**
 
@@ -174,7 +178,7 @@ Steps:
 git clone https://github.com/dependabot/dependabot-script.git
 cd dependabot-script
 
-docker docker build -t "dependabot/dependabot-script" -f Dockerfile .
+docker build -t "dependabot/dependabot-script" -f Dockerfile .
 ```
 
 2. Run dependabot
@@ -234,7 +238,7 @@ docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependab
 ### GitLab CI
 
 The easiest configuration is to have a repository dedicated to the script.
-Many pipeline schedules can be added on that single repo to manage multiple projects.  
+Many pipeline schedules can be added on that single repo to manage multiple projects.
 Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` dashboard becomes your own dependabot admin interface.
 
 * Clone or mirror this repository.
