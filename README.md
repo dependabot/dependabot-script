@@ -66,6 +66,7 @@ Variable Name             | Default          | Notes
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
+`BATCH_SIZE` | `1` (Optional) | If set to a value greater than 1, it will batch dependency updates in a single pull request up to that size.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
