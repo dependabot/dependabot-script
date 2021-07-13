@@ -14,6 +14,8 @@
 #
 # https://github.com/dependabot/dependabot-script
 # https://docs.gitlab.com/ee/ci/yaml/
+default:
+  image: docker:latest
 
 build-image:
   stage: build
