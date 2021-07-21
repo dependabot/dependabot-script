@@ -45,7 +45,33 @@ branch = ENV["BRANCH"]
 # - terraform
 package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
 
-if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
+if ENV['BITBUCKET_SERVER_HOSTNAME']
+  if ENV['BITBUCKET_SERVER_TOKEN']
+    credentials << {
+      'type' => 'git_source',
+      'host' => ENV['BITBUCKET_SERVER_HOSTNAME'],
+      'token' => ENV['BITBUCKET_SERVER_TOKEN']
+    }
+  else
+    credentials << {
+      'type' => 'git_source',
+      'host' => ENV['BITBUCKET_SERVER_HOSTNAME'],
+      'username' => ENV['BITBUCKET_SERVER_USER'],
+      'password' => ENV['BITBUCKET_SERVER_PASSWORD']
+    }
+  end
+
+  namespace, repo_name = repo_name.split('/')
+
+  source = Dependabot::Source.new(
+    provider: 'bitbucket_server',
+    hostname: ENV['BITBUCKET_SERVER_HOSTNAME'],
+    api_endpoint: "https://#{ENV['BITBUCKET_SERVER_HOSTNAME']}/rest/api/1.0",
+    namespace: namespace,
+    repo: repo_name,
+    branch: nil
+  )
+elsif ENV['GITHUB_ENTERPRISE_ACCESS_TOKEN']
   credentials << {
     "type" => "git_source",
     "host" => ENV["GITHUB_ENTERPRISE_HOSTNAME"], # E.g., "ghe.mydomain.com",
@@ -197,7 +223,7 @@ dependencies.select(&:top_level?).each do |dep|
   #####################################
   # Generate updated dependency files #
   #####################################
-  print "  - Updating #{dep.name} (from #{dep.version})…"
+  puts "  - Updating #{dep.name} (from #{dep.version})…"
   updater = Dependabot::FileUpdaters.for_package_manager(package_manager).new(
     dependencies: updated_deps,
     dependency_files: files,
