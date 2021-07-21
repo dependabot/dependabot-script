@@ -61,13 +61,10 @@ if ENV['BITBUCKET_SERVER_HOSTNAME']
     }
   end
 
-  namespace, repo_name = repo_name.split('/')
-
   source = Dependabot::Source.new(
     provider: 'bitbucket_server',
     hostname: ENV['BITBUCKET_SERVER_HOSTNAME'],
     api_endpoint: "https://#{ENV['BITBUCKET_SERVER_HOSTNAME']}/rest/api/1.0",
-    namespace: namespace,
     repo: repo_name,
     branch: nil
   )
@@ -248,7 +245,11 @@ dependencies.select(&:top_level?).each do |dep|
     label_language: true,
   )
   pull_request = pr_creator.create
-  puts " submitted"
+  if pull_request
+    print " - submitted"
+  else
+    print " - already exists"
+  end
 
   next unless pull_request
 
