@@ -220,7 +220,7 @@ dependencies.select(&:top_level?).each do |dep|
   #####################################
   # Generate updated dependency files #
   #####################################
-  puts "  - Updating #{dep.name} (from #{dep.version})…"
+  print "  - Updating #{dep.name} (from #{dep.version})…"
   updater = Dependabot::FileUpdaters.for_package_manager(package_manager).new(
     dependencies: updated_deps,
     dependency_files: files,
@@ -246,9 +246,9 @@ dependencies.select(&:top_level?).each do |dep|
   )
   pull_request = pr_creator.create
   if pull_request
-    print " - submitted"
+    puts " - pull request submitted"
   else
-    print " - already exists"
+    puts " - pull request already exists"
   end
 
   next unless pull_request
