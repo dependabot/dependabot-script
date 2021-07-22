@@ -1,0 +1,66 @@
+# Source Documentation
+# https://marketplace.visualstudio.com/items?itemName=tingle-software.dependabot
+# https://sanderh.dev/Dependabot-Azure-DevOps/
+# https://www.youtube.com/watch?v=4ELai1FivK4
+# https://github.com/dependabot/dependabot-script
+
+# Display name when the pipeline is running
+name: 'Dependabot -- $(Date:yyyyMMdd)$(Rev:.r)'
+
+# Disable CI trigger
+trigger: none
+
+# Schedules instead of triggers runs the job on interval not on trigger
+schedules:
+# daily at 2am GMT-7
+- cron: '0 9 * * *'
+  # run even when there are no code changes
+  always: true
+  # run only on these branches
+  branches:
+    include:
+      - main
+  displayName: Daily
+
+jobs:
+  - job: 'Dependabot'
+    pool:
+      # requires macos or ubuntu (windows is not supported)
+      vmImage: 'ubuntu-latest'
+
+    # Vars to be passed to the docker image
+    variables:
+    - name: DIRECTORY_PATH
+      value: /
+    - name: PACKAGE_MANAGER
+      value: pip
+    # On Azure DevOps this should be the: <Org>/<Project>/_git/<Repo_Name>
+    - name: PROJECT_PATH
+      value: Covered-CA/Data%20Team/_git/Python%20Intake%20Process%20App
+    # Who "Opened" the Pull request. Useful to assign to a service account named "Dependabot"
+    - name: PULL_REQUESTS_ASSIGNEE
+      value: 'Dependabot'
+
+    steps:
+      # Get the repo
+      - script: git clone https://github.com/dependabot/dependabot-script.git
+        displayName: Clone Dependabot config repo
+      # Build the docker image
+      - script: |
+          cd dependabot-script
+          docker build -t "dependabot/dependabot-script" -f Dockerfile .
+        displayName: Build Dependabot Image
+      # Pass your vars to the docker image and execute
+      # NOTE:
+      #       You need to get a Person Access Token and to keep it {SECRET} use The [Variables] button in the
+      #       Azure-Pipelines interface to create a Environmental Variable that the docker image can access but
+      #       isn't in plain text. Same for the GitHub Access Token if your dependencies are only on GitHub
+      - script: |
+          docker run --rm -e AZURE_ACCESS_TOKEN='$(PAT)' \
+                          -e GITHUB_ACCESS_TOKEN='$(GHPAT)' \
+                          -e PACKAGE_MANAGER='$(PACKAGE_MANAGER)' \
+                          -e PROJECT_PATH='$(PROJECT_PATH)' \
+                          -e DIRECTORY_PATH='$(DIRECTORY_PATH)' \
+                          -e PULL_REQUESTS_ASSIGNEE='$(PULL_REQUESTS_ASSIGNEE)' \
+                          dependabot/dependabot-script
+        displayName: Run Dependabot
