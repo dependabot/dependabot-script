@@ -28,7 +28,7 @@ directory = ENV["DIRECTORY_PATH"] || "/"
 branch = ENV["BRANCH"]
 
 # For go modules.
-repo_contents_path = ENV["REPO_CONTENTS_PATH"] || "/contents"
+repo_contents_path = ENV["REPO_CONTENTS_PATH"]
 
 # Comma separated dependency names.
 dependency_names = (ENV["DEPENDENCIES"] || "").split(",")
