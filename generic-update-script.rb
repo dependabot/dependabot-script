@@ -27,6 +27,12 @@ directory = ENV["DIRECTORY_PATH"] || "/"
 # Branch to look at. Defaults to repo's default branch
 branch = ENV["BRANCH"]
 
+# For go modules.
+repo_contents_path = ENV["REPO_CONTENTS_PATH"] || "/contents"
+
+# Comma separated dependency names.
+dependency_names = (ENV["DEPENDENCIES"] || "").split(",")
+
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
 # - pip (includes pipenv)
@@ -165,7 +171,7 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 )
 
 dependencies = parser.parse
-
+dependencies = dependencies.select { |d| dependency_names.include?(d.name) } if dependency_names.size > 0
 dependencies.select(&:top_level?).each do |dep|
   #########################################
   # Get update details for the dependency #
@@ -202,6 +208,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependencies: updated_deps,
     dependency_files: files,
     credentials: credentials,
+    repo_contents_path: repo_contents_path,
   )
 
   updated_files = updater.updated_dependency_files
