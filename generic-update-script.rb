@@ -225,7 +225,7 @@ dependencies.select(&:top_level?).each do |dep|
     files: updated_files,
     credentials: credentials,
     assignees: assignees,
-    author_details: { name: "Dependabot", email: "no-reply@github.com" },
+    author_details: { name: "dependabot[bot]", email: "49699333+dependabot[bot]@users.noreply.github.com" },
     label_language: true,
   )
   pull_request = pr_creator.create
