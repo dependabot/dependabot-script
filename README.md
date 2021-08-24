@@ -62,11 +62,11 @@ variables are listed in the table below. (See
 Variable Name             | Default          | Notes
 :------------             | :--------------- | :----
 `DIRECTORY_PATH `         | `/`              | Directory where the base dependency files are.
-`PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
+`PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `github_actions`, `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
-`BATCH_SIZE` | `1` (Optional) | If set to a value greater than 1, it will batch dependency updates in a single pull request up to that size.
+`BATCH_SIZE`              | `1` (Optional) | If set to a value greater than 1, it will batch dependency updates in a single pull request up to that size.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -82,6 +82,8 @@ Variable                       | Default
 :-------                       | :------
 GITHUB_ENTERPRISE_ACCESS_TOKEN | N/A (Required)
 GITHUB_ENTERPRISE_HOSTNAME     | N/A (Required)
+
+:information_source:  The GHES access token requires the `workflow` scope in order to update GitHub Actions dependencies.
 
 **Gitlab**
 
