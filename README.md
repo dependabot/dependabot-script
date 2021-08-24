@@ -62,11 +62,13 @@ variables are listed in the table below. (See
 Variable Name             | Default          | Notes
 :------------             | :--------------- | :----
 `DIRECTORY_PATH `         | `/`              | Directory where the base dependency files are.
-`PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`,  `github_actions`, `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
+`PACKAGE_MANAGER`         | `bundler`        | Valid values: `bundler`, `cargo`, `composer`, `dep`, `docker`, `elm`, `github_actions`, `go_modules`, `gradle`, `hex`, `maven`, `npm_and_yarn`, `nuget`, `pip` (includes pipenv), `submodules`, `terraform`
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
 `BATCH_SIZE`              | `1` (Optional) | If set to a value greater than 1, it will batch dependency updates in a single pull request up to that size.
+
+:information_source: The GitHub Actions updater will only update public Actions available in GitHub.com.  It will not be able to update private Actions or Actions hosted on GHES.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
