@@ -1,4 +1,4 @@
-FROM dependabot/dependabot-core:0.142.0
+FROM dependabot/dependabot-core:0.162.2
 
 ARG CODE_DIR=/home/dependabot/dependabot-script
 RUN mkdir -p ${CODE_DIR}
