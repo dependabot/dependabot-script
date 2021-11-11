@@ -143,8 +143,8 @@ else
 end
 
 # Add additional credentials for repositories that needs authentication
-if ENV["PRIVATE_REPOSITORIES"]
-  feeds = JSON.parse("#{ENV["PRIVATE_REPOSITORIES"]}")
+if ENV["PRIVATE_REGISTRY_CREDENTIALS"]
+  feeds = JSON.parse("#{ENV["PRIVATE_REGISTRY_CREDENTIALS"]}")
   feeds.each do |child|
     credentials << {
       "type" => "#{child['type']}",

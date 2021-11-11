@@ -112,11 +112,11 @@ BITBUCKET_HOSTNAME     | `bitbucket.org`
 
 \* Either `BITBUCKET_ACCESS_TOKEN` must be passed, or `BITBUCKET_APP_USERNAME` and `BITBUCKET_APP_PASSWORD`.
 
-**Private repository credentials**
+**Private registry credentials**
 
 Variable               | Default
 :------                | :------
-PRIVATE_REPOSITORIES   | N/A (Optional)
+PRIVATE_REGISTRY_CREDENTIALS   | N/A (Optional)
 
 This variable takes a JSON array with objects having below properties.
 Json Property          | Description
@@ -128,7 +128,7 @@ token                  | Token with read access to your repository
 
 Example:
 ```bash
-export PRIVATE_REPOSITORIES="[{\"type\":\"REPO_TYPE_1\",\"url\":\"REPO_URL_1\",\"token\":\"TOKEN_1\"},{\"type\":\"REPO_TYPE_2\",\"url\":\"REPO_URL_2\",\"token\":\"TOKEN_2\"}]"
+export PRIVATE_REGISTRY_CREDENTIALS="[{\"type\":\"REPO_TYPE_1\",\"url\":\"REPO_URL_1\",\"token\":\"TOKEN_1\"},{\"type\":\"REPO_TYPE_2\",\"url\":\"REPO_URL_2\",\"token\":\"TOKEN_2\"}]"
 ```
 
 Limitations:
