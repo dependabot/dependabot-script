@@ -19,19 +19,19 @@ credentials =
     "type" => "git_source",
     "host" => "github.com",
     "username" => "x-access-token",
-    "password" => "a-github-access-token"
+    "password" => ENV["GITHUB_ACCESS_TOKEN"] # A GitHub access token with read access to public repos
   }]
 
-# Full name of the GitHub repo you want to create pull requests for.
-repo_name = "github-account/github-repo"
+# Full name of the repo you want to create pull requests for.
+repo_name = ENV["PROJECT_PATH"] # namespace/project
 
 # Directory where the base dependency files are.
-directory = "/"
+directory = ENV["DIRECTORY_PATH"] || "/"
 
 # Name of the dependency you'd like to update. (Alternatively, you could easily
 # modify this script to loop through all the dependencies returned by
 # `parser.parse`.)
-dependency_name = "rails"
+dependency_name = ENV["DEPENDENCY_NAME"] || "rails"
 
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
@@ -49,7 +49,7 @@ dependency_name = "rails"
 # - submodules
 # - docker
 # - terraform
-package_manager = "npm_and_yarn"
+package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
 
 source = Dependabot::Source.new(
   provider: "github",
