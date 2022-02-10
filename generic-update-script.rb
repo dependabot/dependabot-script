@@ -113,7 +113,7 @@ elsif ENV["BITBUCKET_ACCESS_TOKEN"]
     api_endpoint: ENV["BITBUCKET_API_URL"] || "https://api.bitbucket.org/2.0/",
     repo: repo_name,
     directory: directory,
-    branch: nil,
+    branch: branch,
   )
 elsif ENV["BITBUCKET_APP_USERNAME"] && ENV["BITBUCKET_APP_PASSWORD"]
   bitbucket_hostname = ENV["BITBUCKET_HOSTNAME"] || "bitbucket.org"
