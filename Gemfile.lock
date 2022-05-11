@@ -153,6 +153,7 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
+    slack-notifier (2.4.0)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     toml-rb (2.0.1)
@@ -171,6 +172,7 @@ PLATFORMS
 DEPENDENCIES
   dependabot-omnibus (~> 0.142.0)
   irb
+  slack-notifier
 
 BUNDLED WITH
    1.17.3

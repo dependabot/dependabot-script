@@ -1,3 +1,27 @@
+## Steps:
+
+1. Build the dependabot-script Docker image
+
+```shell
+git clone https://github.com/dependabot/dependabot-script.git
+cd dependabot-script
+
+docker build -t "dependabot/dependabot-script" -f Dockerfile .
+```
+
+2. Run dependabot
+
+```shell
+docker run --rm --env "PROJECT_PATH=namespace/project" 
+--env "DIRECTORY_PATH=/" --env "GITHUB_ACCESS_TOKEN=token"
+--env "SLACK_WEBHOOK_URL=someUrl" --env "UPDATE_TYPE=up_to_date"
+--env "CREATE_PULL_REQUEST=yes" "dependabot/dependabot-script"
+```
+
+## Slack
+To create slack webhook url go to https://slack.com/apps/A0F7XDUAZ-incoming-webhooks
+
+
 # Dependabot Update Script [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&identifier=131328855)](https://dependabot.com)
 
 This repo contains two scripts that demonstrates
