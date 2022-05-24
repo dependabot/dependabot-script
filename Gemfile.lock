@@ -25,7 +25,7 @@ GEM
     aws-sigv4 (1.4.0)
       aws-eventstream (~> 1, >= 1.0.2)
     citrus (3.0.2)
-    commonmarker (0.23.2)
+    commonmarker (0.23.4)
     concurrent-ruby (1.1.9)
     dependabot-bundler (0.172.2)
       dependabot-common (= 0.172.2)
