@@ -1,0 +1,37 @@
+name: ManualDependabot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependabot:
+    permissions:
+      contents: write  # for Git to git push
+      pull-requests: write  # for repo-sync/pull-request to create pull requestsbundle exec ruby ./generic-update-script.rb
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Checkout dependabot
+      run: |
+        cd /tmp/
+        git clone https://github.com/dependabot/dependabot-script
+    - name: Build image
+      run: |
+        cd /tmp/dependabot-script
+        docker build -t "dependabot/dependabot-script" -f Dockerfile .
+    - name: Run dependabot
+      env:
+        # Change this to your package
+        PROJECT_PATH: your/package/here
+        # Select your package manager
+        PACKAGE_MANAGER: docker
+        # Options can turn on extra features (not required)
+        OPTIONS: |
+           { "kubernetes_updates": true }
+        GITHUB_ACCESS_TOKEN: ${{ github.token }}
+      run: |
+        docker run -v $PWD:/src -e PROJECT_PATH=$PROJECT_PATH -e PACKAGE_MANAGER=$PACKAGE_MANAGER -e DIRECTORY=src -e GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN -e OPTIONS="$OPTIONS" dependabot/dependabot-script
