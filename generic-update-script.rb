@@ -8,6 +8,7 @@ require "dependabot/file_updaters"
 require "dependabot/pull_request_creator"
 require "dependabot/omnibus"
 require "gitlab"
+require "json"
 
 credentials = [
   {
@@ -44,6 +45,10 @@ branch = ENV["BRANCH"]
 # - docker
 # - terraform
 package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
+
+# Expected to be a JSON object passed to the underlying components
+options = JSON.parse(ENV["OPTIONS"] || "{}", {:symbolize_names => true})
+puts "Running with options: #{options}"
 
 if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
   credentials << {
@@ -149,6 +154,7 @@ puts "Fetching #{package_manager} dependency files for #{repo_name}"
 fetcher = Dependabot::FileFetchers.for_package_manager(package_manager).new(
   source: source,
   credentials: credentials,
+  options: options,
 )
 
 files = fetcher.files
@@ -162,6 +168,7 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
   dependency_files: files,
   source: source,
   credentials: credentials,
+  options: options,
 )
 
 dependencies = parser.parse
@@ -174,6 +181,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependency: dep,
     dependency_files: files,
     credentials: credentials,
+    options: options,
   )
 
   next if checker.up_to_date?
@@ -202,6 +210,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependencies: updated_deps,
     dependency_files: files,
     credentials: credentials,
+    options: options,
   )
 
   updated_files = updater.updated_dependency_files
