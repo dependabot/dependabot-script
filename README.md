@@ -7,7 +7,10 @@ Dependabot Core works so that you can use it in your own project.
 If you're looking for a hosted, feature-rich dependency updater then you
 probably want [Dependabot][dependabot] itself.
 
-## Setup and usage
+If instead you want to run it manually, the quickest and easiest way to run
+dependabot yourself is via the [Docker image](#running-script-with-dependabot-script-dockerfile).
+
+## Local setup and usage
 
 ```shell
 rbenv install # (Install Ruby version from ./.ruby-version)
@@ -64,6 +67,7 @@ Variable Name             | Default          | Notes
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
+`OPTIONS`                 | `{}`           | JSON options to customize the operation of DependaBot
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -116,6 +120,10 @@ There are a few ways of running the script:
   * interactively with `./update-script.rb`,
   * non-interactively with `./generic-update-script.rb`,
   * and non-interactively using Docker.
+
+You can also set it up to run as part of your repositories workflows
+  * [GitHub Actions Standalone](#github-actions-standalone)
+  * [GitLab](#gitlab-ci)
 
 #### Running `update-script.rb` (GitHub only)
 
@@ -209,6 +217,20 @@ docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/de
 ```
 docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
+### GitHub Actions Standalone
+The easiest and most common way to run DependaBot on GitHub is using the built-in
+DependaBot service as described [here](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions). This is recommended for most users.
+
+However, sometimes you may need to run DependaBot manually either for testing, or to enable features/plugins that are
+not currently available in DependaBot. This is relatively straight-forward to achieve with a shell-based GitHub action.
+
+  * In your GitHub repository, create a directory `.github/workflows` if it doesn't already exist.
+  * Copy [manual-github-actions.yaml](./manual-github-actions.yaml) into that directory.
+  * Customize `PACKAGE_MANAGER` to suit your needs, see the [possible values above.](#environment-variables)
+  * (Optional) Customize `OPTIONS` to suit your needs or delete
+
+By default this action is set to run on workflow dispatch, which means that you need to manually trigger the workflow run.
+If you would rather run it on a set schedule, you can switch to [schedule dispatch](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule).
 
 ### GitLab CI
 

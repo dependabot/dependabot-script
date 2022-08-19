@@ -25,8 +25,6 @@ jobs:
         docker build -t "dependabot/dependabot-script" -f Dockerfile .
     - name: Run dependabot
       env:
-        # Change this to your package
-        PROJECT_PATH: your/package/here
         # Select your package manager
         PACKAGE_MANAGER: docker
         # Options can turn on extra features (not required)
@@ -34,4 +32,4 @@ jobs:
            { "kubernetes_updates": true }
         GITHUB_ACCESS_TOKEN: ${{ github.token }}
       run: |
-        docker run -v $PWD:/src -e PROJECT_PATH=$PROJECT_PATH -e PACKAGE_MANAGER=$PACKAGE_MANAGER -e DIRECTORY=src -e GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN -e OPTIONS="$OPTIONS" dependabot/dependabot-script
+        docker run -v $PWD:/src -e PROJECT_PATH=$GITHUB_REPOSITORY -e PACKAGE_MANAGER=$PACKAGE_MANAGER -e DIRECTORY=src -e GITHUB_ACCESS_TOKEN=$GITHUB_ACCESS_TOKEN -e OPTIONS="$OPTIONS" dependabot/dependabot-script
