@@ -67,7 +67,7 @@ Variable Name             | Default          | Notes
 `PROJECT_PATH`            | N/A (Required) | Path to repository. Usually in the format `<namespace>/<project>`.
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
-`OPTIONS`                 | `{}`           | JSON options to customize the operation of DependaBot
+`OPTIONS`                 | `{}`           | JSON options to customize the operation of Dependabot
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
@@ -218,11 +218,11 @@ docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/de
 docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
 ### GitHub Actions Standalone
-The easiest and most common way to run DependaBot on GitHub is using the built-in
-DependaBot service as described [here](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions). This is recommended for most users.
+The easiest and most common way to run Dependabot on GitHub is using the built-in
+Dependabot service as described [here](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions). This is recommended for most users.
 
-However, sometimes you may need to run DependaBot manually either for testing, or to enable features/plugins that are
-not currently available in DependaBot. This is relatively straight-forward to achieve with a shell-based GitHub action.
+However, sometimes you may need to run Dependabot manually either for testing, or to enable features/plugins that are
+not currently available in Dependabot. This is relatively straight-forward to achieve with a shell-based GitHub action.
 
   * In your GitHub repository, create a directory `.github/workflows` if it doesn't already exist.
   * Copy [manual-github-actions.yaml](./manual-github-actions.yaml) into that directory.
