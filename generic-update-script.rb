@@ -108,7 +108,7 @@ elsif ENV["BITBUCKET_ACCESS_TOKEN"]
   credentials << {
     "type" => "git_source",
     "host" => bitbucket_hostname,
-    "username" => nil,
+    "username" => "x-token-auth",
     "token" => ENV["BITBUCKET_ACCESS_TOKEN"]
   }
 
