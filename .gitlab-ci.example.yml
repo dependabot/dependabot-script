@@ -10,21 +10,38 @@
 # * Set in the schedule required variables
 #
 #     PROJECT_PATH = group/repository
-#     PACKAGE_MANAGER_SET = bundler,composer,npm_and_yarn
+#     PACKAGE_MANAGER = bundler,composer,npm_and_yarn
 #
 # https://github.com/dependabot/dependabot-script
 # https://docs.gitlab.com/ee/ci/yaml/
 
+stages:
+  - build
+  - dependabot
+
 build-image:
   stage: build
+  image: docker
+  services:
+    - name: docker:dind
+      command: ["--experimental"]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+    - when: never
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker build -t "dependabot/dependabot-script" -f Dockerfile .
+    - docker pull $CI_REGISTRY_IMAGE/dependabot-script || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE/dependabot-script --tag $CI_REGISTRY_IMAGE/dependabot-script .
+    - docker push $CI_REGISTRY_IMAGE/dependabot-script
 
 .dependabot:
-  image: dependabot/dependabot-script
-  variables:
-    PACKAGE_MANAGER: $CI_JOB_NAME
+  image: $CI_REGISTRY_IMAGE/dependabot-script
+  stage: dependabot
   script:
+    - cd /home/dependabot/dependabot-script
     - bundle exec ruby ./generic-update-script.rb
   only:
     - schedules
@@ -33,94 +50,94 @@ bundler:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bbundler\b/
+      - $PACKAGE_MANAGER =~ /\bbundler\b/
 
 pip:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bpip\b/
+      - $PACKAGE_MANAGER =~ /\bpip\b/
 
 npm_and_yarn:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /(\bnpm|yarn\b)/
+      - $PACKAGE_MANAGER =~ /(\bnpm|yarn\b)/
 
 maven:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bmaven\b/
+      - $PACKAGE_MANAGER =~ /\bmaven\b/
 
 gradle:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bgradle\b/
+      - $PACKAGE_MANAGER =~ /\bgradle\b/
 
 cargo:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bcargo\b/
+      - $PACKAGE_MANAGER =~ /\bcargo\b/
 
 hex:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bhex\b/
+      - $PACKAGE_MANAGER =~ /\bhex\b/
 
 composer:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bcomposer\b/
+      - $PACKAGE_MANAGER =~ /\bcomposer\b/
 
 nuget:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bnuget\b/
+      - $PACKAGE_MANAGER =~ /\bnuget\b/
 
 dep:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bdep\b/
+      - $PACKAGE_MANAGER =~ /\bdep\b/
 
 go_modules:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bgo_modules\b/
+      - $PACKAGE_MANAGER =~ /\bgo_modules\b/
 
 elm:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\belm\b/
+      - $PACKAGE_MANAGER =~ /\belm\b/
 
 submodules:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bsubmodules\b/
+      - $PACKAGE_MANAGER =~ /\bsubmodules\b/
 
 docker:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bdocker\b/
+      - $PACKAGE_MANAGER =~ /\bdocker\b/
 
 terraform:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bterraform\b/
+      - $PACKAGE_MANAGER =~ /\bterraform\b/
 
 github_actions:
   extends: .dependabot
   only:
     variables:
-      - $PACKAGE_MANAGER_SET =~ /\bgithub_actions\b/
+      - $PACKAGE_MANAGER =~ /\bgithub_actions\b/
