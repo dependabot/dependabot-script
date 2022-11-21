@@ -114,7 +114,7 @@ GEM
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     io-console (0.5.11)
-    irb (1.4.1)
+    irb (1.5.0)
       reline (>= 0.3.0)
     jmespath (1.6.1)
     mime-types (3.4.1)
