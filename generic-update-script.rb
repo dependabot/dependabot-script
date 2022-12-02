@@ -44,108 +44,20 @@ branch = ENV["BRANCH"]
 # - submodules
 # - docker
 # - terraform
-package_manager = ENV["PACKAGE_MANAGER"] || "bundler"
+package_manager = ENV["PACKAGE_MANAGER"] || "npm_and_yarn"
+
+dependency_name = "@toptal/picasso"
 
 # Expected to be a JSON object passed to the underlying components
 options = JSON.parse(ENV["OPTIONS"] || "{}", {:symbolize_names => true})
 puts "Running with options: #{options}"
 
-if ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"]
-  credentials << {
-    "type" => "git_source",
-    "host" => ENV["GITHUB_ENTERPRISE_HOSTNAME"], # E.g., "ghe.mydomain.com",
-    "username" => "x-access-token",
-    "password" => ENV["GITHUB_ENTERPRISE_ACCESS_TOKEN"] # A GHE access token with API permission
-  }
-
-  source = Dependabot::Source.new(
-    provider: "github",
-    hostname: ENV["GITHUB_ENTERPRISE_HOSTNAME"],
-    api_endpoint: "https://#{ENV['GITHUB_ENTERPRISE_HOSTNAME']}/api/v3/",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-elsif ENV["GITLAB_ACCESS_TOKEN"]
-  gitlab_hostname = ENV["GITLAB_HOSTNAME"] || "gitlab.com"
-
-  credentials << {
-    "type" => "git_source",
-    "host" => gitlab_hostname,
-    "username" => "x-access-token",
-    "password" => ENV["GITLAB_ACCESS_TOKEN"] # A GitLab access token with API permission
-  }
-
-  source = Dependabot::Source.new(
-    provider: "gitlab",
-    hostname: gitlab_hostname,
-    api_endpoint: "https://#{gitlab_hostname}/api/v4",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-elsif ENV["AZURE_ACCESS_TOKEN"]
-  azure_hostname = ENV["AZURE_HOSTNAME"] || "dev.azure.com"
-
-  credentials << {
-    "type" => "git_source",
-    "host" => azure_hostname,
-    "username" => "x-access-token",
-    "password" => ENV["AZURE_ACCESS_TOKEN"]
-  }
-
-  source = Dependabot::Source.new(
-    provider: "azure",
-    hostname: azure_hostname,
-    api_endpoint: "https://#{azure_hostname}/",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-elsif ENV["BITBUCKET_ACCESS_TOKEN"]
-  bitbucket_hostname = ENV["BITBUCKET_HOSTNAME"] || "bitbucket.org"
-
-  credentials << {
-    "type" => "git_source",
-    "host" => bitbucket_hostname,
-    "username" => "x-token-auth",
-    "token" => ENV["BITBUCKET_ACCESS_TOKEN"]
-  }
-
-  source = Dependabot::Source.new(
-    provider: "bitbucket",
-    hostname: bitbucket_hostname,
-    api_endpoint: ENV["BITBUCKET_API_URL"] || "https://api.bitbucket.org/2.0/",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-elsif ENV["BITBUCKET_APP_USERNAME"] && ENV["BITBUCKET_APP_PASSWORD"]
-  bitbucket_hostname = ENV["BITBUCKET_HOSTNAME"] || "bitbucket.org"
-
-  credentials << {
-    "type" => "git_source",
-    "host" => bitbucket_hostname,
-    "username" => ENV["BITBUCKET_APP_USERNAME"],
-    "password" => ENV["BITBUCKET_APP_PASSWORD"]
-  }
-
-  source = Dependabot::Source.new(
-    provider: "bitbucket",
-    hostname: bitbucket_hostname,
-    api_endpoint: ENV["BITBUCKET_API_URL"] || "https://api.bitbucket.org/2.0/",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-else
-  source = Dependabot::Source.new(
-    provider: "github",
-    repo: repo_name,
-    directory: directory,
-    branch: branch,
-  )
-end
+source = Dependabot::Source.new(
+  provider: "github",
+  repo: repo_name,
+  directory: directory,
+  branch: branch,
+)
 
 ##############################
 # Fetch the dependency files #
@@ -173,7 +85,7 @@ parser = Dependabot::FileParsers.for_package_manager(package_manager).new(
 
 dependencies = parser.parse
 
-dependencies.select(&:top_level?).each do |dep|
+dependencies.select{ |d| d.name == dependency_name }.each do |dep|
   #########################################
   # Get update details for the dependency #
   #########################################
@@ -234,21 +146,6 @@ dependencies.select(&:top_level?).each do |dep|
   puts " submitted"
 
   next unless pull_request
-
-  # Enable GitLab "merge when pipeline succeeds" feature.
-  # Merge requests created and successfully tested will be merge automatically.
-  if ENV["GITLAB_AUTO_MERGE"]
-    g = Gitlab.client(
-      endpoint: source.api_endpoint,
-      private_token: ENV["GITLAB_ACCESS_TOKEN"]
-    )
-    g.accept_merge_request(
-      source.repo,
-      pull_request.iid,
-      merge_when_pipeline_succeeds: true,
-      should_remove_source_branch: true
-    )
-  end
 end
 
 puts "Done"
