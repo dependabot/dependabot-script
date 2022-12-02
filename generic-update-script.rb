@@ -46,7 +46,7 @@ branch = ENV["BRANCH"]
 # - terraform
 package_manager = ENV["PACKAGE_MANAGER"] || "npm_and_yarn"
 
-dependency_name = "@toptal/picasso"
+dependency_name =  (ENV["PACKAGES_TO_CHECK"] || "").split(/,/)
 
 # Expected to be a JSON object passed to the underlying components
 options = JSON.parse(ENV["OPTIONS"] || "{}", {:symbolize_names => true})
