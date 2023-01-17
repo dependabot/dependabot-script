@@ -68,6 +68,14 @@ Variable Name             | Default          | Notes
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
 `OPTIONS`                 | `{}`           | JSON options to customize the operation of Dependabot
+`CREDENTIALS`             | `[]`            | JSON array containing credentials that can be used to specify what additional resources Dependabot can access and how it can access them.
+
+The content of both the OPTIONS and CREDENTIALS variables depend on the selected package manager. For example, when using "maven", the CREDENTIALS variable can be used to specify an
+additional repository or to completely replace the default maven central repository with a custom one:
+
+```shell
+export CREDENTIALS='[{"type": "maven_repository", "url": "https://example.com/maven", "replaces-base": true}]'
+```
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
