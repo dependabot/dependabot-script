@@ -9,6 +9,11 @@ require "dependabot/pull_request_creator"
 require "dependabot/omnibus"
 require "gitlab"
 require "json"
+require "dependabot/file_fetchers"
+require "dependabot/config/file_fetcher"
+
+
+$stdout.sync = true
 
 credentials = [
   {
@@ -27,6 +32,8 @@ directory = ENV["DIRECTORY_PATH"] || "/"
 
 # Branch to look at. Defaults to repo's default branch
 branch = ENV["BRANCH"]
+
+use_config = (ENV["USE_CONFIG"] || "false").downcase == 'true'
 
 # Name of the package manager you'd like to do the update for. Options are:
 # - bundler
@@ -147,6 +154,27 @@ else
   )
 end
 
+################################
+# Fetch the configuration file #
+################################
+if use_config
+  config = Dependabot::Config::FileFetcher.new(
+    source: source,
+    credentials: credentials,
+    options: options,
+  ).config_file
+
+  puts "","Read the following config from '#{repo_name}':\n",config.content,""
+
+  config = Dependabot::Config::File.parse(config.content)
+  config = config.update_config(
+    package_manager,
+    directory: directory,
+  )
+else
+  config = nil
+end
+
 ##############################
 # Fetch the dependency files #
 ##############################
@@ -181,6 +209,7 @@ dependencies.select(&:top_level?).each do |dep|
     dependency: dep,
     dependency_files: files,
     credentials: credentials,
+    ignored_versions: config ? config.ignored_versions_for(dep) : [],
     options: options,
   )
 
