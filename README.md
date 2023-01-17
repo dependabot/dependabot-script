@@ -68,6 +68,7 @@ Variable Name             | Default          | Notes
 `BRANCH         `         | N/A (Optional) | Branch to fetch manifest from and open pull requests against.
 `PULL_REQUESTS_ASSIGNEE`  | N/A (Optional) | User to assign to the created pull request.
 `OPTIONS`                 | `{}`           | JSON options to customize the operation of Dependabot
+`USE_CONFIG`              | `false`        | Whether to use dependabot.yml configuration file. Valid values are `true` and `false`.
 
 There are other variables that you must pass to your container that will depend on the Git source you use:
 
