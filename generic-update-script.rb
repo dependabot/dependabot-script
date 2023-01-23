@@ -247,7 +247,8 @@ dependencies.select(&:top_level?).each do |dep|
   ########################################
   # Create a pull request for the update #
   ########################################
-  assignee = (ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])&.to_i
+  assignee = (ENV["PULL_REQUESTS_ASSIGNEE"] || ENV["GITLAB_ASSIGNEE_ID"])
+  assignee = assignee&.to_i.to_s == assignee ? assignee&.to_i : assignee
   assignees = assignee ? [assignee] : assignee
   pr_creator = Dependabot::PullRequestCreator.new(
     source: source,
