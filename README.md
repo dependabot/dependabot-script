@@ -210,12 +210,20 @@ cd ..
 git clone https://github.com/dependabot/dependabot-script.git
 cd dependabot-script
 
-docker run -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script dependabot/dependabot-core bundle install -j 3 --path vendor
+docker run \
+  -v "$(pwd):/home/dependabot/dependabot-script" \
+  -w /home/dependabot/dependabot-script \
+  dependabot/dependabot-core bundle install -j 3 --path vendor
 ```
 
 3. Run dependabot
 ```
-docker run --rm -v "$(pwd):/home/dependabot/dependabot-script" -w /home/dependabot/dependabot-script -e ENV_VARIABLE=value dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
+docker run \
+  --rm \
+  -v "$(pwd):/home/dependabot/dependabot-script" \
+  -w /home/dependabot/dependabot-script \
+  -e ENV_VARIABLE=value \
+  dependabot/dependabot-core bundle exec ruby ./generic-update-script.rb
 ```
 ### GitHub Actions Standalone
 The easiest and most common way to run Dependabot on GitHub is using the built-in
