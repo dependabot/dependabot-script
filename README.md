@@ -1,14 +1,14 @@
-# Dependabot Update Script
+### _WARNING - Scripts are Currently Broken_
+_We recently refactored the monolithic docker image used within the [Dependabot Core][dependabot-core] library into one-image-per-ecosystem. Unfortunately, that broke the scripts in this repo, and we haven't had time to update them yet. We are aware of the problem and hope to provide a solution soon._
 
-This repo contains two scripts that demonstrate
-[Dependabot Core][dependabot-core]. It is intended to give you a feel for how
-Dependabot Core works so that you can use it in your own project.
+# Dependabot Script
 
-If you're looking for a hosted, feature-rich dependency updater then you
-probably want [Dependabot][dependabot] itself.
+This repo is a collection of scripts to use as entrypoints to the [Dependabot Core][dependabot-core] library. It is intended as a starting point for advanced users to run a self-hosted version of Dependabot within their own projects.
 
-If instead you want to run it manually, the quickest and easiest way to run
-dependabot yourself is via the [Docker image](#running-script-with-dependabot-script-dockerfile).
+If you're looking for a hassle-free Dependabot experience, check out the hosted [Dependabot Service][dependabot service].
+
+### Note: Community Maintained Project
+This is a community-maintained project. As such, the Dependabot team at GitHub will review PR contributions to update this repo, but is unable to provide further support such as debugging why something doesn't work. 
 
 ## Local setup and usage
 
@@ -258,4 +258,4 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 [github-script]: update-script.rb
 [generic-script]: generic-update-script.rb
 [dependabot-core]: https://github.com/dependabot/dependabot-core
-[dependabot]: https://docs.github.com/en/github/administering-a-repository/about-dependabot-version-updates
+[dependabot service]: https://docs.github.com/en/github/administering-a-repository/about-dependabot-version-updates
