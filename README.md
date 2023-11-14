@@ -241,7 +241,7 @@ Thus `https://[gitlab.domain/org/dependabot-script-repo]/pipeline_schedules` das
 * Clone or mirror this repository.
 * Copy `.gitlab-ci.example.yml` to `.gitlab-ci.yml` or set [a custom CI config path for direct usage](https://docs.gitlab.com/ee/ci/pipelines/settings.html#specify-a-custom-cicd-configuration-file).
 * [Set the required global variables](https://docs.gitlab.com/ee/ci/variables/#variables) used in [`./generic-update-script.rb`][generic-script].
-* Create [a pipeline schedule](https://docs.gitlab.com/ee/user/project/pipelines/schedules.html) for each managed repository.
+* Create [a pipeline schedule](https://docs.gitlab.com/ee/ci/pipelines/schedules.html) for each managed repository.
 * Set in the schedule the required variables:
   * `PROJECT_PATH`: `group/repository`
   * `PACKAGE_MANAGER_SET`: `bundler,composer,npm_and_yarn`
