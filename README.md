@@ -185,7 +185,7 @@ Parsing dependencies information
 #### Running scripts with dependabot-core Dockerfile only
 
 The dependabot-core `Dockerfile` installs dependencies as the `dependabot` user,
-so volume mouning won't work unless you build the image by passing in the
+so volume mounting won't work unless you build the image by passing in the
 `USER_UID` and `USER_GID` arguments. This creates the `dependabot` user with the
 same IDs ensuring it owns the mounted files and can write to them from within
 the container.
