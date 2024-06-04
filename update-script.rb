@@ -4,6 +4,7 @@
 # It's used regularly by the Dependabot team to manually debug issues, so should
 # always be up-to-date.
 
+require "dependabot/credential"
 require "dependabot/file_fetchers"
 require "dependabot/file_parsers"
 require "dependabot/update_checkers"
@@ -14,13 +15,14 @@ require "dependabot/omnibus"
 # GitHub credentials with write permission to the repo you want to update
 # (so that you can create a new branch, commit and pull request).
 # If using a private registry it's also possible to add details of that here.
-credentials =
-  [{
+credentials = [
+  Dependabot::Credential.new({
     "type" => "git_source",
     "host" => "github.com",
     "username" => "x-access-token",
     "password" => "a-github-access-token"
-  }]
+  })
+]
 
 # Full name of the GitHub repo you want to create pull requests for.
 repo_name = "github-account/github-repo"
