@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  remote: https://rubygems.pkg.github.com/dsp-testing/
   specs:
     activesupport (7.0.3.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
@@ -105,6 +106,7 @@ GEM
     gitlab (4.19.0)
       httparty (~> 0.20)
       terminal-table (>= 1.5.1)
+    hola (0.0.0)
     http-accept (1.7.0)
     http-cookie (1.0.5)
       domain_name (~> 0.5)
@@ -162,6 +164,7 @@ PLATFORMS
 
 DEPENDENCIES
   dependabot-omnibus (~> 0.209.0)
+  hola (= 0.0.0)!
   irb
 
 BUNDLED WITH
