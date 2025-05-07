@@ -1,3 +1,6 @@
+> [!CAUTION]
+> Using dependabot-script is no longer the preferred way to run a self-hosted version of Dependabot. See the [Example CLI Usage](https://github.com/dependabot/example-cli-usage) repo for how to use the [Dependabot CLI](https://github.com/dependabot/cli) instead for this purpose.
+
 ### _WARNING - Scripts are Currently Broken_
 _We recently refactored the monolithic docker image used within the [Dependabot Core][dependabot-core] library into one-image-per-ecosystem. Unfortunately, that broke the scripts in this repo, and we haven't had time to update them yet. We are aware of the problem and hope to provide a solution soon._
 
