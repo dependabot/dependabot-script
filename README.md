@@ -1,5 +1,9 @@
+# This repo is deprecated!
+
 > [!CAUTION]
 > Using dependabot-script is no longer the preferred way to run a self-hosted version of Dependabot. See the [Example CLI Usage](https://github.com/dependabot/example-cli-usage) repo for how to use the [Dependabot CLI](https://github.com/dependabot/cli) instead for this purpose.
+
+----
 
 # Dependabot Script
 
